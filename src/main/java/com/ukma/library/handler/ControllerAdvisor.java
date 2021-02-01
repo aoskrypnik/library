@@ -1,0 +1,49 @@
+package com.ukma.library.handler;
+
+import com.ukma.library.exception.AuthenticationException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.CONFLICT;
+
+@ControllerAdvice
+@Slf4j
+public class ControllerAdvisor extends ResponseEntityExceptionHandler {
+
+	@ExceptionHandler({AuthenticationException.class})
+	public void handleConflict(HttpServletResponse response) throws IOException {
+		response.sendError(CONFLICT.value());
+	}
+
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+																  HttpHeaders headers,
+																  HttpStatus status,
+																  WebRequest request) {
+		log.warn(ex.getMessage());
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", new Date());
+		body.put("status", status.value());
+
+		List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+				.map(e -> e.getField() + " " + e.getDefaultMessage())
+				.collect(Collectors.toList());
+		body.put("errors", errors);
+		return new ResponseEntity<>(body, headers, status);
+	}
+}
