@@ -53,9 +53,7 @@
 </template>
 
 <script>
-import axios from "axios";
-
-const endpoint = 'http://localhost:9005';
+import {mapActions} from "vuex";
 
 export default {
   name: "Login",
@@ -76,24 +74,12 @@ export default {
   },
 
   methods: {
-    submit() {
+    ...mapActions([
+      'loginAction',
+    ]),
+    async submit() {
       if (this.$refs.form.validate()) {
-        axios.post(`${endpoint}/auth/login`, {
-          username: this.username,
-          password: this.password
-        }).then(response => {
-          localStorage.setItem('jwt', response.data.jwt)
-          localStorage.setItem('expirationDate', response.data.expirationDate)
-          localStorage.setItem('username', response.data.username)
-          if (this.redirect !== '' && this.redirect !== undefined) {
-            this.$router.push(this.redirect)
-          } else {
-            this.$router.push('/')
-          }
-        }).catch(error => {
-          this.validCreds = false
-          console.log(error)
-        });
+        this.validCreds = await this.loginAction({username: this.username, password: this.password})
       }
     },
     deleteAlert() {

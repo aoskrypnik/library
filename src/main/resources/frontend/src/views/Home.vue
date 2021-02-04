@@ -1,37 +1,23 @@
 <template>
   <div>
     <h1>Main page</h1>
-    <div v-if="username !== 'null' && username !== undefined">
-      <h4>You are logged in as {{ username }}</h4>
-      <v-btn
-          class="mr-4"
-          color="red"
-          @click="doLogout"
-      >
-        Logout
-      </v-btn>
+    <div v-if="usernameGetter">
+      <h4>You are logged in as {{ usernameGetter }}</h4>
     </div>
   </div>
 </template>
 
 <script>
+
+import {mapGetters} from "vuex";
+
 export default {
   name: 'Home',
-  data: () => ({
-    username: undefined
-  }),
 
-  created() {
-    this.username = localStorage.username
-  },
-
-  methods: {
-    doLogout() {
-      localStorage.setItem("jwt", null)
-      localStorage.setItem("username", null)
-      localStorage.setItem("expirationDate", null)
-      this.$router.push('/');
-    }
+  computed: {
+    ...mapGetters([
+      'usernameGetter',
+    ]),
   }
 }
 </script>

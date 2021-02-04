@@ -13,14 +13,24 @@
           Sprint plan
         </v-btn>
 
-        <v-btn
-            v-if="username === 'null' || username === undefined"
-            class="mr-4"
-            color="green"
-            @click="goToLogin"
-        >
-          Login
-        </v-btn>
+        <div>
+          <v-btn
+              v-if="usernameGetter === null"
+              class="mr-4"
+              color="green"
+              @click="goToLogin"
+          >
+            Login
+          </v-btn>
+          <v-btn
+              v-else
+              class="mr-4"
+              color="red"
+              @click="logoutAction"
+          >
+            Logout
+          </v-btn>
+        </div>
 
       </v-container>
     </v-app-bar>
@@ -35,19 +45,31 @@
 </template>
 
 <script>
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
   name: 'App',
 
-  data: () => ({
-    username: null
-  }),
-
   created() {
-    this.username = localStorage.username
+    const username = localStorage.getItem("username");
+    if (username) {
+      this.usernameMutation(username)
+    }
+  },
+
+  computed: {
+    ...mapGetters([
+      'usernameGetter',
+    ]),
   },
 
   methods: {
+    ...mapMutations([
+      'usernameMutation',
+    ]),
+    ...mapActions([
+      'logoutAction',
+    ]),
     goToSprintPlanPage() {
       this.$router.push('/sprint-plan')
     },
