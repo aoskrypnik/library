@@ -15,10 +15,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -43,6 +45,8 @@ public class User implements UserDetails {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private UserRole userRole;
+	@OneToMany(mappedBy = "user")
+	private Set<Order> orders;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
