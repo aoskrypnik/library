@@ -8,6 +8,7 @@ import com.ukma.library.repository.BookRepository;
 import com.ukma.library.repository.CopyRepository;
 import com.ukma.library.service.BookService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Collections;
@@ -26,28 +27,29 @@ public class BookServiceImpl implements BookService {
 	private CopyRepository copyRepository;
 
 	@Override
-	public Book saveBook(Book bookToSave) {
+	@Transactional
+	public Book save(Book book) {
 		Set<Copy> copies = new HashSet<>();
-		for (int i = 0; i < bookToSave.getCopiesNum(); i++) {
+		for (int i = 0; i < book.getCopiesNum(); i++) {
 			copies.add(copyRepository.save(Copy.builder()
-					.book(bookToSave)
+					.book(book)
 					.isAvailable(true)
 					.state(BookState.NEW)
 					.orders(Collections.emptySet())
 					.estimatedReturnDate(null)
 					.build()));
 		}
-		bookToSave.setCopies(copies);
-		return bookRepository.save(bookToSave);
+		book.setCopies(copies);
+		return book;
 	}
 
 	@Override
-	public List<Book> getAllBooks() {
+	public List<Book> getAll() {
 		return bookRepository.findAll();
 	}
 
 	@Override
-	public Book getBookById(String isbn) {
+	public Book getById(String isbn) {
 		return bookRepository.getBookByIsbn(isbn)
 				.orElseThrow(() -> new ResourceNotFoundException(BOOK_NOT_FOUND_WITH_ISBN + isbn));
 	}

@@ -21,16 +21,16 @@ public class BookController {
 
 	@GetMapping
 	public List<Book> getAll() {
-		return bookService.getAllBooks();
+		return bookService.getAll();
 	}
 
 	@GetMapping("/{isbn}")
 	public Book getBook(@PathVariable String isbn) {
-		return bookService.getBookById(isbn);
+		return bookService.getById(isbn);
 	}
 
 	@PostMapping
 	public Book saveBook(@RequestBody Book book) {
-		return bookService.saveBook(book);
+		return bookService.save(book);
 	}
 }

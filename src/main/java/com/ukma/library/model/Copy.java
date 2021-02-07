@@ -44,7 +44,7 @@ public class Copy {
 	@ManyToMany(mappedBy = "copies")
 	private Set<Order> orders = new HashSet<>();
 	@JsonIgnore
-	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@ManyToOne(cascade = {CascadeType.PERSIST})
 	@JoinColumn(name = "isbn")
 	private Book book;
 }

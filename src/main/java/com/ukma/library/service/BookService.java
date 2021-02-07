@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface BookService {
 
-	Book saveBook(Book book);
+	Book save(Book book);
 
-	List<Book> getAllBooks();
+	List<Book> getAll();
 
-	Book getBookById(String isbn);
+	Book getById(String isbn);
 }
