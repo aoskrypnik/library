@@ -3,7 +3,6 @@ package com.ukma.library.service;
 import com.ukma.library.model.Book;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BookService {
 
@@ -11,5 +10,5 @@ public interface BookService {
 
 	List<Book> getAllBooks();
 
-	Optional<Book> getBookById(String isbn);
+	Book getBookById(String isbn);
 }

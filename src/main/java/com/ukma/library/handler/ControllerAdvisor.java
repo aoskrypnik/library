@@ -1,6 +1,7 @@
 package com.ukma.library.handler;
 
 import com.ukma.library.exception.AuthenticationException;
+import com.ukma.library.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
 @Slf4j
@@ -28,6 +30,11 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({AuthenticationException.class})
 	public void handleConflict(HttpServletResponse response) throws IOException {
 		response.sendError(CONFLICT.value());
+	}
+
+	@ExceptionHandler({ResourceNotFoundException.class})
+	public void handleNotFound(HttpServletResponse response) throws IOException {
+		response.sendError(NOT_FOUND.value());
 	}
 
 	@Override

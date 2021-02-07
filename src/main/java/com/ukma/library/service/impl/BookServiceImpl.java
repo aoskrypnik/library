@@ -1,26 +1,28 @@
 package com.ukma.library.service.impl;
 
+import com.ukma.library.exception.ResourceNotFoundException;
 import com.ukma.library.model.Book;
 import com.ukma.library.model.BookState;
 import com.ukma.library.model.Copy;
 import com.ukma.library.repository.BookRepository;
 import com.ukma.library.repository.CopyRepository;
 import com.ukma.library.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class BookServiceImpl implements BookService {
 
-	@Autowired
+	private static final String BOOK_NOT_FOUND_WITH_ISBN = "book not found with isbn ";
+
+	@Resource
 	private BookRepository bookRepository;
-	@Autowired
+	@Resource
 	private CopyRepository copyRepository;
 
 	@Override
@@ -36,8 +38,7 @@ public class BookServiceImpl implements BookService {
 					.build()));
 		}
 		bookToSave.setCopies(copies);
-		bookToSave = bookRepository.save(bookToSave);
-		return bookToSave;
+		return bookRepository.save(bookToSave);
 	}
 
 	@Override
@@ -46,7 +47,8 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public Optional<Book> getBookById(String isbn) {
-		return bookRepository.getBookByIsbn(isbn);
+	public Book getBookById(String isbn) {
+		return bookRepository.getBookByIsbn(isbn)
+				.orElseThrow(() -> new ResourceNotFoundException(BOOK_NOT_FOUND_WITH_ISBN + isbn));
 	}
 }
