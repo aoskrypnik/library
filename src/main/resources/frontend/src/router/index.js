@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import SprintPlan from "@/views/SprintPlan";
 import Login from "@/views/Login";
 import Registration from "@/views/Registration";
+import BookSaveForm from "@/views/BookSaveForm";
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
         path: '/registration',
         name: 'Registration',
         component: Registration
+    },
+    {
+        path: '/save-book',
+        name: 'BookSaveForm',
+        component: BookSaveForm
     }
 ]
 

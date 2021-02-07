@@ -12,6 +12,12 @@
         >
           Sprint plan
         </v-btn>
+        <v-btn
+            class="mr-4"
+            @click="$router.push('/save-book')"
+        >
+          Save book
+        </v-btn>
 
         <div>
           <v-btn
@@ -49,13 +55,6 @@ import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'App',
-
-  created() {
-    const username = localStorage.getItem("username");
-    if (username) {
-      this.usernameMutation(username)
-    }
-  },
 
   computed: {
     ...mapGetters([
