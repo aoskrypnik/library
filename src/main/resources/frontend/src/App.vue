@@ -8,7 +8,7 @@
 
         <v-btn
             class="mr-4"
-            @click="goToSprintPlanPage"
+            @click="$router.push('/sprint-plan')"
         >
           Sprint plan
         </v-btn>
@@ -18,7 +18,7 @@
               v-if="usernameGetter === null"
               class="mr-4"
               color="green"
-              @click="goToLogin"
+              @click="$router.push('/login')"
           >
             Login
           </v-btn>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'App',
@@ -64,18 +64,9 @@ export default {
   },
 
   methods: {
-    ...mapMutations([
-      'usernameMutation',
-    ]),
     ...mapActions([
       'logoutAction',
     ]),
-    goToSprintPlanPage() {
-      this.$router.push('/sprint-plan')
-    },
-    goToLogin() {
-      this.$router.push('/login')
-    },
   }
 };
 </script>

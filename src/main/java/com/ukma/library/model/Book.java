@@ -25,33 +25,33 @@ import java.util.Set;
 @AllArgsConstructor
 public class Book {
 	@Id
-	public String isbn;
+	private String isbn;
 	@NotNull
-	public String title;
+	private String title;
 	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(
 			name = "book_author",
 			joinColumns = {@JoinColumn(name = "isbn")},
 			inverseJoinColumns = {@JoinColumn(name = "author_id")})
-	Set<Author> authors = new HashSet<>();
+	private Set<Author> authors = new HashSet<>();
 	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(
 			name = "book_genre",
 			joinColumns = {@JoinColumn(name = "isbn")},
 			inverseJoinColumns = {@JoinColumn(name = "genre_id", nullable = false)})
-	Set<Genre> genres = new HashSet<>();
+	private Set<Genre> genres = new HashSet<>();
 	@NotNull
-	public Integer copiesNum;
+	private Integer copiesNum;
 	@NotNull
-	public Integer publishYear;
+	private Integer publishYear;
 	@NotNull
-	public Integer pagesNum;
+	private Integer pagesNum;
 	@NotNull
-	public String publishCountry;
+	private String publishCountry;
 	@NotNull
-	public String language;
+	private String language;
 	@NotNull
-	public String imageLink;
+	private String imageLink;
 	@OneToMany(mappedBy = "book")
 	private Set<Copy> copies;
 }

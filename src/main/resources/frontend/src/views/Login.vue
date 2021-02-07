@@ -41,7 +41,6 @@
       </v-btn>
 
       <v-btn
-          :disabled="!valid"
           color="blue"
           class="mr-4 white--text"
           @click="$router.push(`/registration`)"

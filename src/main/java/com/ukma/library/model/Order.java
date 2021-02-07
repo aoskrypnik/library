@@ -40,7 +40,7 @@ public class Order {
 			name = "order_copy",
 			joinColumns = {@JoinColumn(name = "order_num")},
 			inverseJoinColumns = {@JoinColumn(name = "copy_id", nullable = false)})
-	Set<Copy> copies = new HashSet<>();
+	private Set<Copy> copies = new HashSet<>();
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
