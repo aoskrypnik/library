@@ -6,11 +6,32 @@
         :rules="[v => !!v || 'isbn is required']"
         required></v-text-field>
 
-    <v-text-field v-model="title" label="Title" required></v-text-field>
+    <v-text-field
+        v-model="title"
+        label="Title"
+        required></v-text-field>
 
-    <v-autocomplete v-model="selectedAuthors" :items="authorNames" label="Authors" required></v-autocomplete>
+    <v-autocomplete
+        v-model="selectedAuthors"
+        :items="authorNames"
+        label="Authors"
+        outlined
+        dense
+        chips
+        small-chips
+        multiple
+        required></v-autocomplete>
 
-    <v-autocomplete v-model="selectedGenres" :items="genreNames" label="Genres" required></v-autocomplete>
+    <v-autocomplete
+        v-model="selectedGenres"
+        :items="genreNames"
+        label="Genres"
+        outlined
+        dense
+        chips
+        small-chips
+        multiple
+        required></v-autocomplete>
 
     <v-slider
         v-model="copiesNum"
@@ -72,13 +93,37 @@
       </template>
     </v-slider>
 
-    <v-autocomplete v-model="publishCountry" :items="countries" label="Country of publishing" required></v-autocomplete>
+    <v-autocomplete
+        v-model="publishCountry"
+        :items="countries"
+        label="Country of publishing"
+        outlined
+        dense
+        chips
+        small-chips
+        required></v-autocomplete>
 
-    <v-autocomplete v-model="language" :items="languages" label="Language" required></v-autocomplete>
+    <v-autocomplete
+        v-model="language"
+        :items="languages"
+        label="Language"
+        outlined
+        dense
+        chips
+        small-chips
+        required></v-autocomplete>
 
-    <v-btn class="mr-4" @click="submit" color="green">save</v-btn>
+    <v-btn
+        class="mr-4"
+        @click="submit"
+        color="green">
+      save
+    </v-btn>
 
-    <v-btn @click="clear" color="yellow">clear</v-btn>
+    <v-btn @click="clear"
+           color="yellow">
+      clear
+    </v-btn>
   </v-form>
 </template>
 
@@ -94,9 +139,9 @@ export default {
     isbn: '',
     title: '',
     selectedAuthors: [],
-    selectedGenres: [],
     authors: [],
     authorNames: [],
+    selectedGenres: [],
     genres: [],
     genreNames: [],
     copiesNum: 0,
@@ -137,14 +182,15 @@ export default {
         let formData = new FormData();
         formData.append('image', this.image)
         formData.append('book', JSON.stringify(book))
-        axios.post(`${endpoint}/books`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }).then(response => {
-          console.log(response)
-          this.$router.push(`/`)
-        })
+        // axios.post(`${endpoint}/books`, formData, {
+        //   headers: {
+        //     'Content-Type': 'multipart/form-data'
+        //   }
+        // }).then(response => {
+        //   console.log(response)
+        //   this.$router.push(`/`)
+        // })
+        console.log(book)
       }
     },
     clear() {
