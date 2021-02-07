@@ -1,13 +1,15 @@
 package com.ukma.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +24,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "orders")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,13 +38,14 @@ public class Order {
 	@NotNull
 	private Timestamp estimatedReturnDate;
 	private Timestamp actualReturnDate;
-	@ManyToMany(cascade = {CascadeType.ALL})
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(
 			name = "order_copy",
 			joinColumns = {@JoinColumn(name = "order_num")},
-			inverseJoinColumns = {@JoinColumn(name = "copy_id", nullable = false)})
+			inverseJoinColumns = {@JoinColumn(name = "copy_id")})
 	private Set<Copy> copies = new HashSet<>();
-	@ManyToOne(optional = false)
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 }

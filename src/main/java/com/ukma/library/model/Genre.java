@@ -1,10 +1,12 @@
 package com.ukma.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +19,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "genre")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,6 +30,7 @@ public class Genre {
 	private Long id;
 	@NotNull
 	private String genreName;
+	@JsonIgnore
 	@ManyToMany(mappedBy = "genres")
 	private Set<Book> books = new HashSet<>();
 }

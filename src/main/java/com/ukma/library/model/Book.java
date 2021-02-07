@@ -3,11 +3,12 @@ package com.ukma.library.model;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -19,7 +20,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "book")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,17 +30,17 @@ public class Book {
 	private String isbn;
 	@NotNull
 	private String title;
-	@ManyToMany(cascade = {CascadeType.ALL})
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(
 			name = "book_author",
 			joinColumns = {@JoinColumn(name = "isbn")},
 			inverseJoinColumns = {@JoinColumn(name = "author_id")})
 	private Set<Author> authors = new HashSet<>();
-	@ManyToMany(cascade = {CascadeType.ALL})
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(
 			name = "book_genre",
 			joinColumns = {@JoinColumn(name = "isbn")},
-			inverseJoinColumns = {@JoinColumn(name = "genre_id", nullable = false)})
+			inverseJoinColumns = {@JoinColumn(name = "genre_id")})
 	private Set<Genre> genres = new HashSet<>();
 	@NotNull
 	private Integer copiesNum;

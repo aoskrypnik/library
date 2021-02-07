@@ -1,11 +1,14 @@
 package com.ukma.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,7 +25,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "copy")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,9 +40,11 @@ public class Copy {
 	@Enumerated(EnumType.STRING)
 	private BookState state;
 	private Timestamp estimatedReturnDate;
+	@JsonIgnore
 	@ManyToMany(mappedBy = "copies")
 	private Set<Order> orders = new HashSet<>();
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "isbn", nullable = false)
+	@JsonIgnore
+	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinColumn(name = "isbn")
 	private Book book;
 }

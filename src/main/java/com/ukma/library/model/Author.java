@@ -1,11 +1,12 @@
 package com.ukma.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,10 +18,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "author")
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Author {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +31,7 @@ public class Author {
 	private String authorName;
 	@NotNull
 	private String country;
+	@JsonIgnore
 	@ManyToMany(mappedBy = "authors")
 	private Set<Book> books = new HashSet<>();
 }
