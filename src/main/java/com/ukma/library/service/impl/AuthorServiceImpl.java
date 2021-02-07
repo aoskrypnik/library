@@ -25,6 +25,14 @@ public class AuthorServiceImpl implements AuthorService {
 		Author author1 = Author.builder().authorName("Taras Shevchenko").country("Ukraine").build();
 		Author author2 = Author.builder().authorName("Franz Kafka").country("Czeck Republic").build();
 		Author author3 = Author.builder().authorName("Jack London").country("USA").build();
-		authorRepository.saveAll(List.of(author1, author2, author3));
+		if (authorRepository.findByAuthorName(author1.getAuthorName()).isEmpty()) {
+			authorRepository.save(author1);
+		}
+		if (authorRepository.findByAuthorName(author2.getAuthorName()).isEmpty()) {
+			authorRepository.save(author2);
+		}
+		if (authorRepository.findByAuthorName(author3.getAuthorName()).isEmpty()) {
+			authorRepository.save(author3);
+		}
 	}
 }

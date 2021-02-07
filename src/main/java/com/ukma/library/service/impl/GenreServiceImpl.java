@@ -25,6 +25,14 @@ public class GenreServiceImpl implements GenreService {
 		Genre genre1 = Genre.builder().genreName("thriller").build();
 		Genre genre2 = Genre.builder().genreName("romantic").build();
 		Genre genre3 = Genre.builder().genreName("detective").build();
-		genreRepository.saveAll(List.of(genre1, genre2, genre3));
+		if (genreRepository.findByGenreName(genre1.getGenreName()).isEmpty()) {
+			genreRepository.save(genre1);
+		}
+		if (genreRepository.findByGenreName(genre2.getGenreName()).isEmpty()) {
+			genreRepository.save(genre2);
+		}
+		if (genreRepository.findByGenreName(genre3.getGenreName()).isEmpty()) {
+			genreRepository.save(genre3);
+		}
 	}
 }
