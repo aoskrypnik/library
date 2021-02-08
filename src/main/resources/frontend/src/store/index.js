@@ -42,6 +42,32 @@ export default new Vuex.Store({
                 return false
             });
         },
+        registerAction({commit}, {username, password, confirmationPassword, realName, surname, phoneNumber, birthDate, email}) {
+            axios.post(`${endpoint}/readers/register`, {
+                username: username,
+                password: password,
+                confirmationPassword:confirmationPassword,
+                realName: realName,
+                surname: surname,
+                phoneNumber: phoneNumber,
+                birthDate: birthDate,
+                email: email,
+            }).then(response => {
+                localStorage.setItem('jwt', response.data.jwt)
+                localStorage.setItem('expirationDate', response.data.expirationDate)
+                localStorage.setItem('username', response.data.username)
+                commit("usernameMutation", response.data.username)
+                if (this.redirect !== '' && this.redirect !== undefined) {
+                    router.push(this.redirect)
+                } else {
+                    router.push('/')
+                }
+                return true
+            }).catch(error => {
+                console.log(error)
+                return false
+            });
+        },
         logoutAction({commit}) {
             localStorage.removeItem("jwt")
             localStorage.removeItem("username")
