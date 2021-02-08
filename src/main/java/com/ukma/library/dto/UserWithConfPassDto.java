@@ -19,5 +19,4 @@ public class UserWithConfPassDto {
     @JsonFormat(pattern = ISO_DATE_FORMATTER)
     private LocalDate birthDate;
     private String email;
-    private UserRole userRole;
 }
