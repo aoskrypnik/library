@@ -1,5 +1,6 @@
 package com.ukma.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +52,7 @@ public class User implements UserDetails {
 	private Set<Order> orders;
 
 	@Override
+	@JsonIgnore
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new SimpleGrantedAuthority(userRole.name()));
 	}

@@ -1,7 +1,9 @@
 package com.ukma.library.handler;
 
 import com.ukma.library.exception.AuthenticationException;
+import com.ukma.library.exception.PasswordNotMatchException;
 import com.ukma.library.exception.ResourceNotFoundException;
+import com.ukma.library.exception.UserAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,7 +29,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Slf4j
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler({AuthenticationException.class})
+	@ExceptionHandler({AuthenticationException.class, PasswordNotMatchException.class,UserAlreadyExistsException.class})
 	public void handleConflict(HttpServletResponse response) throws IOException {
 		response.sendError(CONFLICT.value());
 	}
