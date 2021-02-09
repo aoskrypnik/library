@@ -113,6 +113,14 @@
         small-chips
         required></v-autocomplete>
 
+    <v-file-input
+        v-model="image"
+        accept=".jpg, .png"
+        label="Upload image"
+        filled
+        prepend-icon="mdi-camera"
+    ></v-file-input>
+
     <v-btn
         class="mr-4"
         @click="submit"
@@ -171,8 +179,14 @@ export default {
         let book = {
           isbn: this.isbn,
           title: this.title,
-          authors: this.selectedAuthors,
-          genres: this.selectedGenres,
+          authors: this.selectedAuthors.map(authorName => {
+                return {id: this.authors.find(item => item.authorName === authorName).id}
+              }
+          ),
+          genres: this.selectedGenres.map(genreName => {
+                return {id: this.genres.find(item => item.genreName === genreName).id}
+              }
+          ),
           copiesNum: this.copiesNum,
           publishYear: this.publishYear,
           pagesNum: this.pagesNum,
@@ -182,15 +196,14 @@ export default {
         let formData = new FormData();
         formData.append('image', this.image)
         formData.append('book', JSON.stringify(book))
-        // axios.post(`${endpoint}/books`, formData, {
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data'
-        //   }
-        // }).then(response => {
-        //   console.log(response)
-        //   this.$router.push(`/`)
-        // })
-        console.log(book)
+        axios.post(`${endpoint}/books`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(response => {
+          console.log(response)
+          this.$router.push(`/`)
+        })
       }
     },
     clear() {
