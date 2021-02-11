@@ -124,12 +124,11 @@
     <v-btn
         class="mr-4"
         @click="submit"
-        color="green">
+        color="primary">
       save
     </v-btn>
 
-    <v-btn @click="clear"
-           color="yellow">
+    <v-btn @click="clear">
       clear
     </v-btn>
   </v-form>

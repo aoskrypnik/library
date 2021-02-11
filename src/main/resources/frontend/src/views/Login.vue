@@ -34,18 +34,11 @@
       <v-btn
           :disabled="!valid"
           color="success"
+          depressed
           class="mr-4"
           @click="submit"
       >
         Log in
-      </v-btn>
-
-      <v-btn
-          color="blue"
-          class="mr-4 white--text"
-          @click="$router.push(`/registration`)"
-      >
-        Register
       </v-btn>
     </div>
   </v-form>

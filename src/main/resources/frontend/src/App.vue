@@ -8,32 +8,50 @@
 
         <v-btn
             class="mr-4"
+            text
             @click="$router.push('/sprint-plan')"
         >
           Sprint plan
         </v-btn>
         <v-btn
+            v-if="usernameGetter != null"
+            text
+            color="primary"
             class="mr-4"
             @click="$router.push('/save-book')"
         >
-          Save book
+          <v-icon left>mdi-book-outline</v-icon>
+          Add book
         </v-btn>
 
         <div>
           <v-btn
               v-if="usernameGetter === null"
               class="mr-4"
-              color="green"
+              text
+              color="primary"
               @click="$router.push('/login')"
           >
+            <v-icon left>mdi-account</v-icon>
             Login
+          </v-btn>
+          <v-btn
+              v-if="usernameGetter === null"
+              color="primary"
+              depressed
+              class="mr-4"
+              @click="$router.push(`/registration`)"
+          >
+            Register
           </v-btn>
           <v-btn
               v-else
               class="mr-4"
-              color="red"
+              text
+              color="error"
               @click="logoutAction"
           >
+            <v-icon left>mdi-logout-variant</v-icon>
             Logout
           </v-btn>
         </div>

@@ -82,7 +82,7 @@
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
             v-model="birth_date"
-            label="Birthday date"
+            label="Date of birth"
             prepend-icon="mdi-calendar"
             readonly
             :rules="rules"
@@ -103,10 +103,11 @@
       <v-btn
           :disabled="!valid"
           color="success"
+          depressed
           class="mr-4"
           @click="submit"
       >
-        Registrate
+        Register
       </v-btn>
 
     </div>
