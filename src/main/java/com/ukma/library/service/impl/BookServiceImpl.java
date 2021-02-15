@@ -1,6 +1,8 @@
 package com.ukma.library.service.impl;
 
+import com.ukma.library.exception.IsbnNotMatchException;
 import com.ukma.library.exception.ResourceNotFoundException;
+import com.ukma.library.exception.UserAlreadyExistsException;
 import com.ukma.library.model.Book;
 import com.ukma.library.model.BookState;
 import com.ukma.library.model.Copy;
@@ -15,10 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -68,5 +67,39 @@ public class BookServiceImpl implements BookService {
 	public Book getById(String isbn) {
 		return bookRepository.getBookByIsbn(isbn)
 				.orElseThrow(() -> new ResourceNotFoundException(BOOK_NOT_FOUND_WITH_ISBN + isbn));
+	}
+
+	@Override
+	@Transactional
+	public Book updateBook(Book book, MultipartFile image, String isbn) {
+		if (!book.getIsbn().equals(isbn))
+			throw new IsbnNotMatchException("Isbn in path and inside book object are different");
+		Optional<Book> bookFromDbOp = bookRepository.getBookByIsbn(isbn);
+		if (!bookFromDbOp.isPresent())
+			throw new ResourceNotFoundException(BOOK_NOT_FOUND_WITH_ISBN + isbn);
+		Book bookFromDb = bookFromDbOp.get();
+		bookFromDb.setTitle(book.getTitle());
+		bookFromDb.setAuthors(book.getAuthors());
+		bookFromDb.setGenres(book.getGenres());
+		bookFromDb.setLanguage(book.getLanguage());
+		bookFromDb.setPublishYear(book.getPublishYear());
+		bookFromDb.setPagesNum(book.getPagesNum());
+		bookFromDb.setPublishCountry(book.getPublishCountry());
+		if (image != null) {
+			try {
+				bookFromDb.setImageLink(fileService.uploadFile(image));
+			} catch (IOException e) {
+				log.error(FAILED_TO_UPLOAD_AN_IMAGE_FOR_BOOK, isbn);
+			}
+		}
+		return bookFromDb;
+	}
+
+	@Override
+	@Transactional
+	public void deleteBook(String isbn) {
+		if (!bookRepository.getBookByIsbn(isbn).isPresent())
+			throw new ResourceNotFoundException(BOOK_NOT_FOUND_WITH_ISBN + isbn);
+		bookRepository.deleteBookByIsbn(isbn);
 	}
 }

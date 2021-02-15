@@ -1,9 +1,6 @@
 package com.ukma.library.handler;
 
-import com.ukma.library.exception.AuthenticationException;
-import com.ukma.library.exception.PasswordNotMatchException;
-import com.ukma.library.exception.ResourceNotFoundException;
-import com.ukma.library.exception.UserAlreadyExistsException;
+import com.ukma.library.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,8 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
 @Slf4j
@@ -37,6 +33,11 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({ResourceNotFoundException.class})
 	public void handleNotFound(HttpServletResponse response) throws IOException {
 		response.sendError(NOT_FOUND.value());
+	}
+
+	@ExceptionHandler({IsbnNotMatchException.class})
+	public void handleBadRequest(HttpServletResponse response) throws IOException {
+		response.sendError(BAD_REQUEST.value());
 	}
 
 	@Override

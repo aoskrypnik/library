@@ -12,4 +12,8 @@ public interface BookService {
 	List<Book> getAll();
 
 	Book getById(String isbn);
+
+	Book updateBook(Book book, MultipartFile image, String isbn);
+
+	void deleteBook(String isbn);
 }
