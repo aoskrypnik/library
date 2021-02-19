@@ -24,6 +24,16 @@
           Add book
         </v-btn>
 
+        <v-btn
+            v-if="usernameGetter != null"
+            text
+            color="primary"
+            class="mr-4"
+        >
+          <v-icon left>mdi-account-plus</v-icon>
+          Add author
+        </v-btn>
+
         <div>
           <v-btn
               v-if="usernameGetter === null"
@@ -51,7 +61,7 @@
               color="error"
               @click="logoutAction"
           >
-            <v-icon left>mdi-logout-variant</v-icon>
+            <v-icon left>mdi-logout</v-icon>
             Logout
           </v-btn>
         </div>
