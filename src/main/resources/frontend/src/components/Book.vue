@@ -1,4 +1,5 @@
 <template>
+
   <v-card class="book-card">
     <div class="d-flex flex-no-wrap justify-space-between">
       <v-img
@@ -37,10 +38,11 @@
           >
             <v-icon left>mdi-bell-outline</v-icon>
             Повідомити</v-btn>
-          <v-btn text color="primary" class="ml-auto"
-                 v-else
-          >
-            Замовити</v-btn>
+<!--          <v-btn text color="primary" class="ml-auto" @click="openOrderModal"-->
+<!--                 v-else-->
+<!--          >-->
+<!--            Замовити</v-btn>-->
+          <order-modal ref="modal"  v-else></order-modal>
         </v-card-actions>
       </div>
     </div>
@@ -48,8 +50,12 @@
 </template>
 
 <script>
+import OrderModal from "@/components/Order-modal";
 export default {
   name: "Book",
+  components: {
+    OrderModal
+  },
   props: [
     'bookTitle',
     'bookAuthors',
@@ -59,7 +65,7 @@ export default {
     'bookYear',
     'bookCountry',
     'bookCover'
-  ]
+  ],
 }
 </script>
 

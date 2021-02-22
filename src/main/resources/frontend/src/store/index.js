@@ -76,6 +76,8 @@ export default new Vuex.Store({
             if (router.currentRoute.path !== '/') {
                 router.push('/');
             }
-        }
+        },
+        orderAction(){},
+
     },
 })
