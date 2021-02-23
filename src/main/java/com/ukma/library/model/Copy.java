@@ -19,7 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,7 +39,7 @@ public class Copy {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private BookState state;
-	private Timestamp estimatedReturnDate;
+	private LocalDateTime estimatedReturnDate;
 	@JsonIgnore
 	@ManyToMany(mappedBy = "copies")
 	private Set<Order> orders = new HashSet<>();

@@ -2,13 +2,12 @@ package com.ukma.library.service.impl;
 
 import com.ukma.library.exception.IsbnNotMatchException;
 import com.ukma.library.exception.ResourceNotFoundException;
-import com.ukma.library.exception.UserAlreadyExistsException;
 import com.ukma.library.model.Book;
 import com.ukma.library.model.BookState;
 import com.ukma.library.model.Copy;
 import com.ukma.library.repository.BookRepository;
-import com.ukma.library.repository.CopyRepository;
 import com.ukma.library.service.BookService;
+import com.ukma.library.service.CopyService;
 import com.ukma.library.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ public class BookServiceImpl implements BookService {
 	@Resource
 	private BookRepository bookRepository;
 	@Resource
-	private CopyRepository copyRepository;
+	private CopyService copyService;
 
 	@Override
 	@Transactional
@@ -39,7 +38,7 @@ public class BookServiceImpl implements BookService {
 		Set<Copy> copies = new HashSet<>();
 
 		for (int i = 0; i < book.getCopiesNum(); i++) {
-			copies.add(copyRepository.save(Copy.builder()
+			copies.add(copyService.save(Copy.builder()
 					.book(book)
 					.isAvailable(true)
 					.state(BookState.NEW)

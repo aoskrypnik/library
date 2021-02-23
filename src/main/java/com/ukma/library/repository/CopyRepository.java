@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CopyRepository extends JpaRepository<Copy, Long> {
+
+	public Copy getById(Long id);
 }

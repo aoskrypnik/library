@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +20,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,12 +35,15 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private LocalDateTime takenDate;
 	@NotNull
-	private Timestamp takenDate;
+	@Enumerated(EnumType.STRING)
+	private OrderStatus status;
 	@NotNull
-	private Timestamp estimatedReturnDate;
-	private Timestamp actualReturnDate;
-	@ManyToMany(fetch=FetchType.LAZY)
+	private LocalDateTime estimatedReturnDate;
+	private LocalDateTime actualReturnDate;
+	private LocalDateTime registeredDate;
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "order_copy",
 			joinColumns = {@JoinColumn(name = "order_num")},
@@ -48,4 +53,5 @@ public class Order {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
+
 }
