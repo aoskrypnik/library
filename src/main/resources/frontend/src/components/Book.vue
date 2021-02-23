@@ -7,10 +7,11 @@
           class="book-cover"
       ></v-img>
       <div>
-        <v-card-title> {{ bookTitle }} </v-card-title>
+        <v-card-title> {{ bookTitle }}</v-card-title>
         <v-card-subtitle
             v-for="author in bookAuthors" :key="author.id"
-        > {{ author.authorName }} </v-card-subtitle>
+        > {{ author.authorName }}
+        </v-card-subtitle>
         <v-card-text>
           <div>
             <v-chip
@@ -19,17 +20,20 @@
                 label
                 class="chip"
                 v-for="genre in bookGenres" :key="genre.id"
-            > {{ genre.genreName }} </v-chip>
+            > {{ genre.genreName }}
+            </v-chip>
             <v-chip small outlined label class="chip"> {{ bookPages }} сторінок</v-chip>
             <v-chip small outlined label class="chip"> {{ bookYear }} рік</v-chip>
-            <v-chip small outlined label class="chip"> {{ bookCountry }} </v-chip>
+            <v-chip small outlined label class="chip"> {{ bookCountry }}</v-chip>
             <v-chip small outlined label color="danger" class="chip"
                     v-if="bookCopies === 0"
-            > Немає в наявності </v-chip>
+            > Немає в наявності
+            </v-chip>
             <v-chip small outlined label color="success" class="chip"
                     v-else
             >
-              Є в наявності </v-chip>
+              Є в наявності
+            </v-chip>
           </div>
         </v-card-text>
         <v-card-actions>
@@ -37,12 +41,14 @@
                  v-if="bookCopies === 0"
           >
             <v-icon left>mdi-bell-outline</v-icon>
-            Повідомити</v-btn>
-<!--          <v-btn text color="primary" class="ml-auto" @click="openOrderModal"-->
-<!--                 v-else-->
-<!--          >-->
-<!--            Замовити</v-btn>-->
-          <order-modal ref="modal"  v-else></order-modal>
+            Повідомити
+          </v-btn>
+          <div v-else>
+            <order-modal v-if="roleGetter==='READER'"></order-modal>
+            <div v-else-if="roleGetter==='ADMINISTRATOR'">
+              <v-btn @click="$router.push({ name: 'BookEditForm', params: {id: bookIsbn }})">Edit</v-btn>
+            </div>
+          </div>
         </v-card-actions>
       </div>
     </div>
@@ -51,12 +57,15 @@
 
 <script>
 import OrderModal from "@/components/Order-modal";
+import {mapGetters} from "vuex";
+
 export default {
   name: "Book",
   components: {
     OrderModal
   },
   props: [
+    'bookIsbn',
     'bookTitle',
     'bookAuthors',
     'bookGenres',
@@ -66,21 +75,26 @@ export default {
     'bookCountry',
     'bookCover'
   ],
+  computed: {
+    ...mapGetters([
+      'roleGetter'
+    ]),
+  },
 }
 </script>
 
 <style scoped>
-  .book-card {
-    overflow: hidden;
-  }
+.book-card {
+  overflow: hidden;
+}
 
-  .book-cover {
-    width: 150px;
-  }
+.book-cover {
+  width: 150px;
+}
 
-  .chip {
-    margin-right: 8px;
-    margin-bottom: 8px;
-  }
+.chip {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
 
 </style>

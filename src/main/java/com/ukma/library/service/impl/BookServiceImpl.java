@@ -16,7 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -74,7 +78,7 @@ public class BookServiceImpl implements BookService {
 		if (!book.getIsbn().equals(isbn))
 			throw new IsbnNotMatchException("Isbn in path and inside book object are different");
 		Optional<Book> bookFromDbOp = bookRepository.getBookByIsbn(isbn);
-		if (!bookFromDbOp.isPresent())
+		if (bookFromDbOp.isEmpty())
 			throw new ResourceNotFoundException(BOOK_NOT_FOUND_WITH_ISBN + isbn);
 		Book bookFromDb = bookFromDbOp.get();
 		bookFromDb.setTitle(book.getTitle());
@@ -97,7 +101,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	@Transactional
 	public void deleteBook(String isbn) {
-		if (!bookRepository.getBookByIsbn(isbn).isPresent())
+		if (bookRepository.getBookByIsbn(isbn).isEmpty())
 			throw new ResourceNotFoundException(BOOK_NOT_FOUND_WITH_ISBN + isbn);
 		bookRepository.deleteBookByIsbn(isbn);
 	}

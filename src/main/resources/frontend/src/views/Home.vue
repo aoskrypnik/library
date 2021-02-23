@@ -13,6 +13,7 @@
               <v-row>
                 <v-col class="col-sm-12 col-md-6" v-for="book in books" :key="book.isbn">
                   <Book
+                      :bookIsbn=book.isbn
                       :bookTitle=book.title
                       :bookAuthors=book.authors
                       :bookGenres=book.genres
