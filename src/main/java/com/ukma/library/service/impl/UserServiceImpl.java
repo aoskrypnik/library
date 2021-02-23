@@ -32,12 +32,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean areValidCredentials(UserCredentialsDto credentials) {
+	public UserDetails areValidCredentials(UserCredentialsDto credentials) {
 		try {
 			UserDetails userDetails = loadUserByUsername(credentials.getUsername());
-			return passwordEncoder.matches(credentials.getPassword(), userDetails.getPassword());
+			return passwordEncoder.matches(credentials.getPassword(), userDetails.getPassword())
+					? userDetails
+					: null;
 		} catch (UsernameNotFoundException exception) {
-			return false;
+			return null;
 		}
 	}
 

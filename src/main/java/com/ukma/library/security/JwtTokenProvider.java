@@ -10,6 +10,8 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -24,16 +26,20 @@ public class JwtTokenProvider {
 	@Value("${app.jwtExpirationInMs}")
 	private int jwtExpirationInMs;
 
-	public JwtResponseDto generateToken(String username) {
+	public JwtResponseDto generateToken(UserDetails userDetails) {
+		String role = userDetails.getAuthorities().stream()
+				.findFirst()
+				.map(GrantedAuthority::getAuthority)
+				.orElseThrow(RuntimeException::new);
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 		String jwt = Jwts.builder()
-				.setSubject(username)
+				.setSubject(userDetails.getUsername())
 				.setIssuedAt(new Date())
 				.setExpiration(expiryDate)
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
 				.compact();
-		return new JwtResponseDto(jwt, expiryDate, username);
+		return new JwtResponseDto(jwt, expiryDate, userDetails.getUsername(), role);
 	}
 
 	public String getUserLoginFromJWT(String token) {

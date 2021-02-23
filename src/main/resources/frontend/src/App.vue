@@ -14,7 +14,7 @@
           Sprint plan
         </v-btn>
         <v-btn
-            v-if="usernameGetter != null"
+            v-if="roleGetter === 'ADMINISTRATOR'"
             text
             color="primary"
             class="mr-4"
@@ -22,16 +22,6 @@
         >
           <v-icon left>mdi-book-outline</v-icon>
           Add book
-        </v-btn>
-
-        <v-btn
-            v-if="usernameGetter != null"
-            text
-            color="primary"
-            class="mr-4"
-        >
-          <v-icon left>mdi-account-plus</v-icon>
-          Add author
         </v-btn>
 
         <div>
@@ -79,20 +69,30 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
   name: 'App',
 
+  created() {
+    this.userMutation({
+      username: localStorage.getItem("username"),
+      role: localStorage.getItem("role")
+    })
+  },
+
   computed: {
     ...mapGetters([
-      'usernameGetter',
+      'usernameGetter', 'roleGetter'
     ]),
   },
 
   methods: {
     ...mapActions([
       'logoutAction',
+    ]),
+    ...mapMutations([
+      'userMutation',
     ]),
   }
 };

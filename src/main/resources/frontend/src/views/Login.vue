@@ -69,9 +69,11 @@ export default {
     ...mapActions([
       'loginAction',
     ]),
-    async submit() {
+    submit() {
       if (this.$refs.form.validate()) {
-        this.validCreds = await this.loginAction({username: this.username, password: this.password})
+        this.loginAction({username: this.username, password: this.password})
+            .then(promiseResponse => this.validCreds = promiseResponse)
+            .catch(promiseResponse => this.validCreds = promiseResponse)
       }
     },
     deleteAlert() {

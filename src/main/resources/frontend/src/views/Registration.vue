@@ -1,21 +1,11 @@
 <template>
-  <!--  <h1>Registration page</h1>-->
   <v-form
       ref="form_Reg"
       v-model="valid"
       lazy-validation
   >
-    <v-alert
-        border="top"
-        color="red lighten-2"
-        dark
-        v-if="!validCreds"
-    >
-      Credentials are not valid :(
-    </v-alert>
 
     <v-text-field
-        @click="deleteAlert"
         v-model="new_username"
         :rules="rules"
         label="Username"
@@ -23,7 +13,6 @@
     ></v-text-field>
 
     <v-text-field
-        @click="deleteAlert"
         v-model="new_password"
         :rules="rules"
         :type="'password'"
@@ -32,7 +21,6 @@
     ></v-text-field>
 
     <v-text-field
-        @click="deleteAlert"
         v-model="re_password"
         :rules="[rules, passwordConfirmationRule]"
         :type="'password'"
@@ -130,7 +118,7 @@ export default {
     phoneNumber: '',
     birth_date: null,
     menu: false,
-    errors:'',
+    errors: '',
     emailRules: [
       v => !!v || 'E-mail is required',
       v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -143,7 +131,6 @@ export default {
     rules: [
       v => !!v || 'Is required',
     ],
-    validCreds: true,
     redirect: ''
   }),
   computed: {
@@ -169,9 +156,9 @@ export default {
       this.$refs.menu.save(date)
     },
 
-    async submit() {
+    submit() {
       if (this.$refs.form_Reg.validate()) {
-        this.validCreds = await this.registerAction({
+        this.registerAction({
           username: this.new_username,
           password: this.new_password,
           confirmationPassword: this.re_password,
@@ -180,12 +167,11 @@ export default {
           phoneNumber: this.phoneNumber,
           birthDate: this.birth_date,
           email: this.email,
+        }).then(() => {
+          console.log("registered")
         })
       }
     },
-    deleteAlert() {
-      this.validCreds = true
-    }
   },
 }
 </script>

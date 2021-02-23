@@ -10,74 +10,93 @@ const endpoint = 'http://localhost:9005';
 export default new Vuex.Store({
     state: {
         username: null,
+        role: null
     },
+
     getters: {
         usernameGetter: state => {
             return state.username
         },
-    },
-    mutations: {
-        usernameMutation(state, username) {
-            state.username = username
+        roleGetter: state => {
+            return state.role
         },
     },
+
+    mutations: {
+        userMutation(state, {username, role}) {
+            state.username = username
+            state.role = role
+        },
+    },
+
     actions: {
         loginAction({commit}, {username, password}) {
-            axios.post(`${endpoint}/auth/login`, {
-                username: username,
-                password: password
-            }).then(response => {
-                localStorage.setItem('jwt', response.data.jwt)
-                localStorage.setItem('expirationDate', response.data.expirationDate)
-                localStorage.setItem('username', response.data.username)
-                commit("usernameMutation", response.data.username)
-                if (this.redirect !== '' && this.redirect !== undefined) {
-                    router.push(this.redirect)
-                } else {
-                    router.push('/')
-                }
-                return true
-            }).catch(error => {
-                console.log(error)
-                return false
-            });
+            return new Promise((resolve, reject) => {
+                axios.post(`${endpoint}/auth/login`, {
+                    username: username,
+                    password: password
+                }).then(response => {
+                    localStorage.setItem('jwt', response.data.jwt)
+                    localStorage.setItem('expirationDate', response.data.expirationDate)
+                    localStorage.setItem('username', response.data.username)
+                    localStorage.setItem('role', response.data.role)
+                    commit("userMutation", {username: response.data.username, role: response.data.role})
+                    if (this.redirect !== '' && this.redirect !== undefined) {
+                        router.push(this.redirect)
+                    } else {
+                        router.push('/')
+                    }
+                    resolve(true)
+                }).catch(error => {
+                    console.log(error)
+                    reject(false)
+                });
+            })
         },
+
         registerAction({commit}, {username, password, confirmationPassword, realName, surname, phoneNumber, birthDate, email}) {
-            axios.post(`${endpoint}/readers/register`, {
-                username: username,
-                password: password,
-                confirmationPassword:confirmationPassword,
-                realName: realName,
-                surname: surname,
-                phoneNumber: phoneNumber,
-                birthDate: birthDate,
-                email: email,
-            }).then(response => {
-                localStorage.setItem('jwt', response.data.jwt)
-                localStorage.setItem('expirationDate', response.data.expirationDate)
-                localStorage.setItem('username', response.data.username)
-                commit("usernameMutation", response.data.username)
-                if (this.redirect !== '' && this.redirect !== undefined) {
-                    router.push(this.redirect)
-                } else {
-                    router.push('/')
-                }
-                return true
-            }).catch(error => {
-                console.log(error)
-                return false
-            });
+            return new Promise((resolve, reject) => {
+                axios.post(`${endpoint}/readers/register`, {
+                    username: username,
+                    password: password,
+                    confirmationPassword: confirmationPassword,
+                    realName: realName,
+                    surname: surname,
+                    phoneNumber: phoneNumber,
+                    birthDate: birthDate,
+                    email: email,
+                }).then(response => {
+                    localStorage.setItem('jwt', response.data.jwt)
+                    localStorage.setItem('expirationDate', response.data.expirationDate)
+                    localStorage.setItem('username', response.data.username)
+                    localStorage.setItem('role', response.data.role)
+                    commit("userMutation", {username: response.data.username, role: response.data.role})
+                    if (this.redirect !== '' && this.redirect !== undefined) {
+                        router.push(this.redirect)
+                    } else {
+                        router.push('/')
+                    }
+                    resolve(true)
+                }).catch(error => {
+                    console.log(error)
+                    reject(false)
+                });
+            })
         },
+
         logoutAction({commit}) {
             localStorage.removeItem("jwt")
             localStorage.removeItem("username")
             localStorage.removeItem("expirationDate")
-            commit("usernameMutation", null)
+            localStorage.removeItem("role")
+            commit("userMutation", {username: null, role: null})
             if (router.currentRoute.path !== '/') {
                 router.push('/');
             }
         },
-        orderAction(){},
+
+        orderAction() {
+        },
 
     },
 })

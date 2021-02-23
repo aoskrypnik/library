@@ -11,4 +11,5 @@ public class JwtResponseDto {
 	private String jwt;
 	private Date expirationDate;
 	private String username;
+	private String role;
 }

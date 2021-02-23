@@ -3,12 +3,10 @@ package com.ukma.library.service.impl;
 import com.ukma.library.dto.JwtResponseDto;
 import com.ukma.library.dto.UserCredentialsDto;
 import com.ukma.library.exception.AuthenticationException;
-import com.ukma.library.exception.ResourceNotFoundException;
-import com.ukma.library.model.Book;
-import com.ukma.library.model.User;
 import com.ukma.library.security.JwtTokenProvider;
 import com.ukma.library.service.AuthService;
 import com.ukma.library.service.UserService;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,8 +21,9 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public JwtResponseDto login(UserCredentialsDto credentials) {
-		if (userService.areValidCredentials(credentials)) {
-			return jwtTokenProvider.generateToken(credentials.getUsername());
+		UserDetails userDetails = userService.areValidCredentials(credentials);
+		if (userService.areValidCredentials(credentials) != null) {
+			return jwtTokenProvider.generateToken(userDetails);
 		} else {
 			throw new AuthenticationException();
 		}

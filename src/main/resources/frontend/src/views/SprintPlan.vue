@@ -11,7 +11,6 @@
       <li>Create CRUD endpoints and services for book</li>
       <li>Create user registration endpoint <span>&#10003;</span></li>
       <li>Create book order functionality</li>
-      <li>Create book search with filtration functionality</li>
     </ul>
     <p/>
     <hr>
@@ -23,7 +22,6 @@
       <li>Create user registration form <span>&#10003;</span></li>
       <li>Create CRUD functionality for books</li>
       <li>Create order page</li>
-      <li>Create book search with filtration functionality</li>
     </ul>
   </div>
 </template>
