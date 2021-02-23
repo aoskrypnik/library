@@ -1,6 +1,7 @@
 <template>
   <v-form ref="form">
     <v-text-field
+        disabled
         v-model="isbn"
         label="ISBN"
         :rules="[v => !!v || 'isbn is required']"
