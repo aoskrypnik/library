@@ -8,9 +8,11 @@
       ></v-img>
       <div>
         <v-card-title> {{ bookTitle }}</v-card-title>
-        <v-card-subtitle
-            v-for="author in bookAuthors" :key="author.id"
-        > {{ author.authorName }}
+        <v-card-subtitle>
+          <span v-for="author in bookAuthors" :key="author.id">
+            {{ author.authorName }}<span v-if="author !== bookAuthors[bookAuthors.length-1]">,</span>
+          </span>
+
         </v-card-subtitle>
         <v-card-text>
           <div>

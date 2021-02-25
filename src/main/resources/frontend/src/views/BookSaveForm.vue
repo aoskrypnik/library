@@ -173,11 +173,11 @@ export default {
           isbn: this.isbn,
           title: this.title,
           authors: this.selectedAuthors.map(authorName => {
-                return {id: this.authors.find(item => item.authorName === authorName).id}
+                return {id: this.authorsGetter.find(item => item.authorName === authorName).id}
               }
           ),
           genres: this.selectedGenres.map(genreName => {
-                return {id: this.genres.find(item => item.genreName === genreName).id}
+                return {id: this.genresGetter.find(item => item.genreName === genreName).id}
               }
           ),
           copiesNum: this.copiesNum,
