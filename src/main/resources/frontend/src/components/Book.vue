@@ -44,9 +44,16 @@
             Повідомити
           </v-btn>
           <div v-else>
-            <order-modal :book=book v-if="roleGetter==='READER'"></order-modal>
+            <orderModal :book=book v-if="roleGetter==='READER'"></orderModal>
             <div v-else-if="roleGetter==='ADMINISTRATOR'">
-              <v-btn @click="$router.push({ name: 'BookEditForm', params: {id: book.isbn }})">Edit</v-btn>
+              <v-btn
+                  text
+                  @click="$router.push({ name: 'BookEditForm', params: {id: book.isbn }})"
+              >
+                <v-icon left>mdi-pencil</v-icon>
+                Edit
+              </v-btn>
+              <deleteModal :bookIsbn=bookIsbn :bookTitle=bookTitle></deleteModal>
             </div>
           </div>
         </v-card-actions>
@@ -56,13 +63,15 @@
 </template>
 
 <script>
-import OrderModal from "@/components/Order-modal";
+import OrderModal from "@/components/OrderModal";
+import DeleteModal from "@/components/DeleteModal";
 import {mapGetters} from "vuex";
 
 export default {
   name: "Book",
   components: {
-    OrderModal
+    OrderModal,
+    DeleteModal
   },
   props: [
     'book'
