@@ -1,6 +1,7 @@
 package com.ukma.library.service.impl;
 
 import com.ukma.library.dto.OrderSaveDto;
+import com.ukma.library.exception.ResourceNotFoundException;
 import com.ukma.library.model.Copy;
 import com.ukma.library.model.Order;
 import com.ukma.library.model.OrderStatus;
@@ -13,12 +14,13 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+	private static final String ORDER_NOT_FOUND_WITH_ID = "order not found with id ";
 
 	@Resource
 	private CopyService copyService;
@@ -47,7 +49,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Optional<Order> getById(Long orderId) {
-		return orderRepository.findById(orderId);
+	public Order getById(Long orderId) {
+		return orderRepository.findById(orderId)
+				.orElseThrow(() -> new ResourceNotFoundException(ORDER_NOT_FOUND_WITH_ID + orderId));
 	}
 }
