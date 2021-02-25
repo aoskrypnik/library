@@ -137,6 +137,8 @@
 <script>
 import axios from "axios";
 import countries from "countries-list"
+import {mapGetters} from "vuex";
+
 
 const endpoint = 'http://localhost:9005';
 
@@ -146,11 +148,11 @@ export default {
     isbn: '',
     title: '',
     selectedAuthors: [],
-    authors: [],
-    authorNames: [],
+    // authors: [],
+    // authorNames: [],
     selectedGenres: [],
-    genres: [],
-    genreNames: [],
+    // genres: [],
+    // genreNames: [],
     copiesNum: 0,
     publishYear: 0,
     pagesNum: 0,
@@ -161,14 +163,6 @@ export default {
     image: null,
   }),
   created() {
-    axios.get(`${endpoint}/authors`).then(response => {
-      this.authors = response.data
-      this.authorNames = this.authors.map(author => author.authorName)
-    })
-    axios.get(`${endpoint}/genres`).then(response => {
-      this.genres = response.data
-      this.genreNames = this.genres.map(genre => genre.genreName)
-    })
     this.countries = Object.entries(countries.countries).map(item => item[1].name)
     this.languages = Object.entries(countries.languages).map(item => item[1].name)
   },
@@ -215,6 +209,18 @@ export default {
       this.pagesNum = 0
       this.publishCountry = ''
       this.language = ''
+    },
+  },
+  computed: {
+    ...mapGetters([
+      'genresGetter',
+      'authorsGetter'
+    ]),
+    genreNames: function () {
+      return this.genresGetter.map(genre => genre.genreName)
+    },
+    authorNames: function () {
+      return this.authorsGetter.map(author => author.authorName)
     }
   }
 }

@@ -10,7 +10,9 @@ const endpoint = 'http://localhost:9005';
 export default new Vuex.Store({
     state: {
         username: null,
-        role: null
+        role: null,
+        genres: [],
+        authors: [],
     },
 
     getters: {
@@ -20,6 +22,13 @@ export default new Vuex.Store({
         roleGetter: state => {
             return state.role
         },
+        genresGetter: state => {
+            return state.genres
+
+        },
+        authorsGetter: state => {
+            return state.authors
+        },
     },
 
     mutations: {
@@ -27,9 +36,27 @@ export default new Vuex.Store({
             state.username = username
             state.role = role
         },
+        genresMutation(state, {genres}) {
+            state.genres = genres
+        },
+        authorsMutation(state, {authors}) {
+            state.authors = authors
+        },
     },
 
     actions: {
+        loadGenresAction({commit}) {
+            axios.get(`${endpoint}/genres`).then(response => {
+                let genres = response.data
+                commit("genresMutation", {genres: genres})
+            })
+        },
+        loadAuthorsAction({commit}) {
+            axios.get(`${endpoint}/authors`).then(response => {
+                let authors = response.data
+                commit("authorsMutation", {authors: authors})
+            })
+        },
         loginAction({commit}, {username, password}) {
             return new Promise((resolve, reject) => {
                 axios.post(`${endpoint}/auth/login`, {
@@ -54,7 +81,16 @@ export default new Vuex.Store({
             })
         },
 
-        registerAction({commit}, {username, password, confirmationPassword, realName, surname, phoneNumber, birthDate, email}) {
+        registerAction({commit}, {
+            username,
+            password,
+            confirmationPassword,
+            realName,
+            surname,
+            phoneNumber,
+            birthDate,
+            email
+        }) {
             return new Promise((resolve, reject) => {
                 axios.post(`${endpoint}/readers/register`, {
                     username: username,

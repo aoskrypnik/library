@@ -40,32 +40,39 @@
 </template>
 
 <script>
-import axios from "axios";
-const endpoint = 'http://localhost:9005';
+// import axios from "axios";
+import {mapGetters} from "vuex";
+
+// const endpoint = 'http://localhost:9005';
 
 export default {
   name: "Filters",
-  data () {
+  data() {
     return {
       available_only: false,
       selectedAuthors: [],
-      authors: [],
-      authorNames: [],
+      // authors: [],
+      // authorNames: [],
       selectedGenres: [],
-      genres: [],
-      genreNames: [],
+      // genres: [],
+      // genreNames: [],
     }
   },
-  created() {
-    axios.get(`${endpoint}/authors`).then(response => {
-      this.authors = response.data
-      this.authorNames = this.authors.map(author => author.authorName)
-    })
-    axios.get(`${endpoint}/genres`).then(response => {
-      this.genres = response.data
-      this.genreNames = this.genres.map(genre => genre.genreName)
-    })
-  }
+
+  computed: {
+    ...mapGetters([
+      'genresGetter',
+      'authorsGetter'
+    ]),
+    genreNames: function () {
+      return this.genresGetter.map(genre => genre.genreName)
+    },
+    authorNames: function () {
+      return this.authorsGetter.map(author => author.authorName)
+    }
+  },
+
+
 }
 </script>
 

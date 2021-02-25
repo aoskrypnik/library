@@ -79,20 +79,26 @@ export default {
       username: localStorage.getItem("username"),
       role: localStorage.getItem("role")
     })
+    this.loadGenresAction()
+    this.loadAuthorsAction()
   },
 
   computed: {
     ...mapGetters([
-      'usernameGetter', 'roleGetter'
+      'usernameGetter', 'roleGetter', 'genresGetter', 'authorsGetter'
     ]),
   },
 
   methods: {
     ...mapActions([
       'logoutAction',
+      'loadGenresAction',
+      'loadAuthorsAction',
     ]),
     ...mapMutations([
       'userMutation',
+      'genresMutation',
+      'authorsMutation',
     ]),
   }
 };
