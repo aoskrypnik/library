@@ -6,7 +6,8 @@ import Login from "@/views/Login";
 import Registration from "@/views/Registration";
 import BookSaveForm from "@/views/BookSaveForm";
 import BookEditForm from "@/views/BookEditForm";
-import BookOrder from "@/views/BookOrder";
+import BookOrder from "@/views/BookOrderCreate";
+import OrdersList from "@/views/OrdersList";
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,11 @@ const routes = [
         path: '/book-order',
         name: 'BookOrder',
         component: BookOrder
+    },
+    {
+        path: '/orders-list',
+        name: 'OrdersList',
+        component: OrdersList
     },
 ]
 

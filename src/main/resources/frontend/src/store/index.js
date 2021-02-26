@@ -13,6 +13,8 @@ export default new Vuex.Store({
         role: null,
         genres: [],
         authors: [],
+        storage: [],
+        storageNum: 0
     },
 
     getters: {
@@ -24,11 +26,16 @@ export default new Vuex.Store({
         },
         genresGetter: state => {
             return state.genres
-
         },
         authorsGetter: state => {
             return state.authors
         },
+        storageGetter: state => {
+            return state.storage
+        },
+        storageNumGetter: state => {
+            return state.storageNum
+        }
     },
 
     mutations: {
@@ -42,6 +49,26 @@ export default new Vuex.Store({
         authorsMutation(state, {authors}) {
             state.authors = authors
         },
+        storageAddMutation(state, {book}) {
+            state.storage.push(book)
+            state.storageNum++
+            localStorage.setItem("storage", JSON.stringify(state.storage))
+            localStorage.setItem("storageNum",  JSON.stringify(state.storageNum))
+        },
+        storageRestoreMutation(state) {
+            if (localStorage.getItem("storage")) {
+                state.storage = JSON.parse(localStorage.getItem("storage"))
+            }
+            if (localStorage.getItem("storageNum")) {
+                state.storageNum = JSON.parse(localStorage.getItem("storageNum"))
+            }
+        },
+        storageRemoveAllMutation(state) {
+            state.storage = []
+            state.storageNum = 0
+            localStorage.removeItem("storage")
+            localStorage.removeItem("storageNum")
+        }
     },
 
     actions: {

@@ -9,6 +9,25 @@
         <v-btn
             class="mr-4"
             text
+            @click="$router.push('/orders-list')"
+        >
+          My orders
+        </v-btn>
+
+        <v-badge
+            color="green"
+            :content="storageNumGetter"
+        >
+          <v-btn @click="$router.push('/book-order')">
+            <v-icon>
+              mdi-basket
+            </v-icon>
+          </v-btn>
+        </v-badge>
+
+        <v-btn
+            class="mr-4"
+            text
             @click="$router.push('/sprint-plan')"
         >
           Sprint plan
@@ -79,13 +98,14 @@ export default {
       username: localStorage.getItem("username"),
       role: localStorage.getItem("role")
     })
+    this.storageRestoreMutation()
     this.loadGenresAction()
     this.loadAuthorsAction()
   },
 
   computed: {
     ...mapGetters([
-      'usernameGetter', 'roleGetter', 'genresGetter', 'authorsGetter'
+      'usernameGetter', 'roleGetter', 'genresGetter', 'authorsGetter', 'storageNumGetter'
     ]),
   },
 
@@ -99,6 +119,7 @@ export default {
       'userMutation',
       'genresMutation',
       'authorsMutation',
+      'storageRestoreMutation'
     ]),
   }
 };

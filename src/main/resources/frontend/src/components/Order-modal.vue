@@ -6,10 +6,12 @@
     >
 
       <template v-slot:activator="{ on, attrs }">
-          <v-btn text color="primary" class="ml-auto" v-bind="attrs"
-                 v-on="on">
-            Замовити
-          </v-btn>
+        <v-btn v-if="notContains()" text color="primary" class="ml-auto" v-bind="attrs" v-on="on" @click="addToStorage()">
+          Замовити
+        </v-btn>
+        <p v-else>
+          Вже є в замовленні
+        </p>
       </template>
 
       <v-card>
@@ -18,7 +20,7 @@
         </v-card-title>
 
         <v-card-text class="my-3">
-        Створити замовлення чи додати ще книжок?
+          Створити замовлення чи додати ще книжок?
         </v-card-text>
 
         <v-divider></v-divider>
@@ -46,16 +48,31 @@
 </template>
 
 <script>
+import {mapGetters, mapMutations} from "vuex";
+
 export default {
   name: "OrderModal",
+  props: ['book'],
   data() {
     return {
       dialog: false,
     }
   },
+  methods: {
+    ...mapMutations([
+      'storageAddMutation',
+    ]),
+    addToStorage() {
+      this.storageAddMutation({book: this.book})
+    },
+    notContains() {
+      return !this.storageGetter.map(sb => sb.isbn).includes(this.book.isbn)
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'storageGetter',
+    ]),
+  }
 }
 </script>
-
-<style scoped>
-
-</style>
