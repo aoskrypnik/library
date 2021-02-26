@@ -35,7 +35,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 		response.sendError(NOT_FOUND.value());
 	}
 
-	@ExceptionHandler({IsbnNotMatchException.class})
+	@ExceptionHandler({IsbnNotMatchException.class, IdNotMatchException.class})
 	public void handleBadRequest(HttpServletResponse response) throws IOException {
 		response.sendError(BAD_REQUEST.value());
 	}

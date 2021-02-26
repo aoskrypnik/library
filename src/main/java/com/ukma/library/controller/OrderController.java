@@ -4,17 +4,14 @@ import com.ukma.library.dto.OrderSaveDto;
 import com.ukma.library.model.Order;
 import com.ukma.library.service.OrderService;
 import com.ukma.library.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.nonNull;
 
 @RestController
 @RequestMapping("/orders")
@@ -37,6 +34,12 @@ public class OrderController {
 	@PostMapping
 	public Order save(@RequestBody OrderSaveDto orderSaveDto) {
 		return orderService.save(orderSaveDto);
+	}
+
+	@PutMapping(value = "/{id}")
+	public Order updateBook(
+			@RequestBody Order order, @PathVariable Long id) {
+		return orderService.updateOrder(order, id);
 	}
 
 	@GetMapping("/{orderId}")
