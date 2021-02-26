@@ -47,13 +47,14 @@
             <orderModal :book=book v-if="roleGetter==='READER'"></orderModal>
             <div v-else-if="roleGetter==='ADMINISTRATOR'">
               <v-btn
+                  class="ml-2"
                   text
                   @click="$router.push({ name: 'BookEditForm', params: {id: book.isbn }})"
               >
                 <v-icon left>mdi-pencil</v-icon>
                 Edit
               </v-btn>
-              <deleteModal :bookIsbn=bookIsbn :bookTitle=bookTitle></deleteModal>
+              <deleteModal :book="book"></deleteModal>
             </div>
           </div>
         </v-card-actions>

@@ -5,7 +5,7 @@
   >
 
     <template v-slot:activator="{ on, attrs }">
-      <v-btn text color="error" v-bind="attrs"
+      <v-btn text color="error" class="ml-2" v-bind="attrs"
              v-on="on">
         <v-icon left>mdi-trash-can-outline</v-icon>
         Delete
@@ -18,7 +18,7 @@
       </v-card-title>
 
       <v-card-text class="my-3">
-        Ви дійсно хочете видалити книгу "{{bookTitle}}"?
+        Ви дійсно хочете видалити книгу "{{book.title}}"?
       </v-card-text>
 
       <v-divider></v-divider>
@@ -34,7 +34,7 @@
         <v-btn
             color="error"
             text
-            @click="deleteBook(bookIsbn)"
+            @click="deleteBook(book.isbn)"
         >
           Так, видалити
         </v-btn>
@@ -56,12 +56,12 @@ export default {
     }
   },
   props: [
-    'bookIsbn',
-    'bookTitle'
+    'book'
   ],
   methods: {
-    deleteBook(bookIsbn) {
-      axios.delete(`${endpoint}/books/${bookIsbn}`)
+    deleteBook(isbn) {
+      axios.delete(`${endpoint}/books/${isbn}`)
+      this.dialog = false
     }
   }
 }

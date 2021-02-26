@@ -7,6 +7,7 @@
         <v-spacer/>
 
         <v-btn
+            v-if="roleGetter === 'READER'"
             class="mr-4"
             text
             @click="$router.push('/orders-list')"
@@ -15,6 +16,7 @@
         </v-btn>
 
         <v-badge
+            v-if="roleGetter === 'READER'"
             color="green"
             :content="storageNumGetter"
         >
