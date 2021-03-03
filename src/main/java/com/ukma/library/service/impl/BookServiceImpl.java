@@ -101,8 +101,9 @@ public class BookServiceImpl implements BookService {
 	@Override
 	@Transactional
 	public void deleteBook(String isbn) {
-		if (bookRepository.getBookByIsbn(isbn).isEmpty())
-			throw new ResourceNotFoundException(BOOK_NOT_FOUND_WITH_ISBN + isbn);
+		Book book = bookRepository.getBookByIsbn(isbn)
+				.orElseThrow(() -> new ResourceNotFoundException(BOOK_NOT_FOUND_WITH_ISBN + isbn));
 		bookRepository.deleteBookByIsbn(isbn);
+		amazonFileService.deleteFile(book.getImageLink());
 	}
 }

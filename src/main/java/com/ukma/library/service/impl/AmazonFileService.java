@@ -4,6 +4,7 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ukma.library.exception.BrokenFileException;
 import com.ukma.library.exception.UploadRejectionException;
@@ -54,6 +55,12 @@ public class AmazonFileService implements FileService {
 			throw new UploadRejectionException(TRIED_TO_UPLOAD_NOT_IMAGE_MESSAGE);
 		}
 		return uploadFileToS3Bucket(image);
+	}
+
+	@Override
+	public void deleteFile(String fileUrl) {
+		String fileName = fileUrl.substring(fileUrl.lastIndexOf(SLASH) + 1);
+		amazonS3.deleteObject(new DeleteObjectRequest(bucketName, fileName));
 	}
 
 	private String uploadFileToS3Bucket(MultipartFile multipartFile)
