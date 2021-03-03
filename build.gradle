@@ -10,7 +10,14 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 node {
-    download = true
+    version = '12.6.1'
+    npmVersion = '6.10.2'
+    distBaseUrl = 'https://nodejs.org/dist'
+    download = false
+    workDir = file("${project.buildDir}/nodejs")
+    npmWorkDir = file("${project.buildDir}/npm")
+    yarnWorkDir = file("${project.buildDir}/yarn")
+    nodeModulesDir = file("${project.projectDir}")
 }
 
 configurations {
