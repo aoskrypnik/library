@@ -31,7 +31,7 @@ task copyFrontendToBuild(type: Copy) {
 
 task npmBuild(type: Exec) {
     workingDir './src/main/resources/frontend'
-    commandLine 'npm', 'run', 'build'
+    commandLine 'npm','run', 'build'
 }
 
 repositories {
