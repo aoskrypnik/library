@@ -2,7 +2,7 @@
   <v-card class="book-card">
     <div class="d-flex flex-no-wrap justify-space-between">
       <v-img
-          :src="`/upload/${book.imageLink}`"
+          :src="`${book.imageLink}`"
           class="book-cover"
           height="200"
           contain
@@ -33,7 +33,6 @@
             <v-icon left>mdi-delete</v-icon>
             Видалити
           </v-btn>
-
         </v-card-actions>
       </div>
     </div>

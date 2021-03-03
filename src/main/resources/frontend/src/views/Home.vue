@@ -9,13 +9,12 @@
         <v-col class="col-md-9">
           <v-row>
             <v-col class="col-sm-12 col-md-6" v-for="book in books" :key="book.isbn">
-              <Book :book="book"/>
+              <Book :book="book" @delete-book="deleteBook"/>
             </v-col>
           </v-row>
         </v-col>
       </v-row>
     </v-container>
-
   </div>
 </template>
 
@@ -35,7 +34,7 @@ export default {
   },
   data() {
     return {
-      books: []
+      books: [],
     }
   },
   created() {
@@ -44,5 +43,10 @@ export default {
       console.log(this.books)
     })
   },
+  methods: {
+    deleteBook(isbn) {
+      this.books = this.books.filter(book => book.isbn !== isbn)
+    }
+  }
 }
 </script>

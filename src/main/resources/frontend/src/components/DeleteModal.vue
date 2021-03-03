@@ -18,7 +18,7 @@
       </v-card-title>
 
       <v-card-text class="my-3">
-        Ви дійсно хочете видалити книгу "{{book.title}}"?
+        Ви дійсно хочете видалити книгу "{{ book.title }}"?
       </v-card-text>
 
       <v-divider></v-divider>
@@ -61,12 +61,13 @@ export default {
   methods: {
     deleteBook(isbn) {
       axios.delete(`${endpoint}/books/${isbn}`)
+          .then(response => {
+            this.$emit("delete-book", isbn)
+            console.log(response)
+          })
+          .catch(err => console.log(err))
       this.dialog = false
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>

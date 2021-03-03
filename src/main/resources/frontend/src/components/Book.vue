@@ -2,7 +2,7 @@
   <v-card class="book-card">
     <div class="d-flex flex-no-wrap justify-space-between">
       <v-img
-          :src="`/upload/${book.imageLink}`"
+          :src="`${book.imageLink}`"
           class="book-cover"
       ></v-img>
       <div>
@@ -54,7 +54,7 @@
                 <v-icon left>mdi-pencil</v-icon>
                 Edit
               </v-btn>
-              <deleteModal :book="book"></deleteModal>
+              <deleteModal :book="book" @delete-book="deleteBook"></deleteModal>
             </div>
           </div>
         </v-card-actions>
@@ -82,6 +82,12 @@ export default {
       'roleGetter'
     ]),
   },
+  methods: {
+    deleteBook(isbn) {
+      console.log(isbn)
+      this.$emit("delete-book", isbn)
+    }
+  }
 }
 </script>
 

@@ -30,7 +30,7 @@ public class BookServiceImpl implements BookService {
 	private static final String FAILED_TO_UPLOAD_AN_IMAGE_FOR_BOOK = "Failed to upload an image for book {}";
 
 	@Resource
-	private FileService fileService;
+	private FileService amazonFileService;
 	@Resource
 	private BookRepository bookRepository;
 	@Resource
@@ -52,7 +52,7 @@ public class BookServiceImpl implements BookService {
 		}
 
 		try {
-			book.setImageLink(fileService.uploadFile(file));
+			book.setImageLink(amazonFileService.uploadFile(file));
 		} catch (IOException e) {
 			log.error(FAILED_TO_UPLOAD_AN_IMAGE_FOR_BOOK, book.getIsbn());
 		}
@@ -90,7 +90,7 @@ public class BookServiceImpl implements BookService {
 		bookFromDb.setPublishCountry(book.getPublishCountry());
 		if (image != null) {
 			try {
-				bookFromDb.setImageLink(fileService.uploadFile(image));
+				bookFromDb.setImageLink(amazonFileService.uploadFile(image));
 			} catch (IOException e) {
 				log.error(FAILED_TO_UPLOAD_AN_IMAGE_FOR_BOOK, isbn);
 			}
