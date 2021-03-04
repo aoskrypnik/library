@@ -19,6 +19,7 @@ node {
     npmWorkDir = project.file("${project.buildDir}/npm")
     yarnWorkDir = project.file("${project.buildDir}/yarn")
 }
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -34,14 +35,14 @@ bootJar {
 }
 
 task copyFrontendToBuild(type: Copy) {
-    dependsOn 'npmBuild'
+    dependsOn 'yarnBuild'
     from "$projectDir/src/main/resources/frontend/dist/"
     into "$buildDir/resources/main/static"
 }
 
-task npmBuild(type: Exec) {
+task yarnBuild(type: Exec) {
     workingDir './src/main/resources/frontend'
-    commandLine 'npm', 'run', 'build'
+    commandLine 'yarn', 'build'
 }
 
 repositories {
