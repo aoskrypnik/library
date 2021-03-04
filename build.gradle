@@ -2,7 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.4.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
-    id 'com.github.node-gradle.node' version '3.0.1'
+    id 'com.github.node-gradle.node' version '2.2.0'
 }
 
 group = 'com.ukma'
@@ -11,8 +11,14 @@ sourceCompatibility = '11'
 
 node {
     download = true
+    version = "12.13.1"
+    npmVersion = "6.9.0"
+    yarnVersion = "1.17.3"
+    nodeModulesDir = project.file("${project.buildDir}/src/main/resources/frontend")
+    workDir = project.file("${project.buildDir}/nodejs")
+    npmWorkDir = project.file("${project.buildDir}/npm")
+    yarnWorkDir = project.file("${project.buildDir}/yarn")
 }
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -35,7 +41,7 @@ task copyFrontendToBuild(type: Copy) {
 
 task npmBuild(type: Exec) {
     workingDir './src/main/resources/frontend'
-    commandLine 'npm','run','build'
+    commandLine 'npm', 'run', 'build'
 }
 
 repositories {
