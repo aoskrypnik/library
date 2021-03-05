@@ -1,1 +1,1 @@
-java -Dserver.port=$PORT -jar build/libs/library-0.0.1-SNAPSHOT.jar
+web: java $JAVA_OPTS -jar -Dserver.port=$PORT target/library-0.0.1-SNAPSHOT.jar
