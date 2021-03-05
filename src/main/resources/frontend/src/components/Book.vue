@@ -70,6 +70,7 @@ import {mapGetters} from "vuex";
 
 export default {
   name: "Book",
+
   components: {
     OrderModal,
     DeleteModal
