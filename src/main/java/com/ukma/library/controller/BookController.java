@@ -1,9 +1,17 @@
 package com.ukma.library.controller;
 
+import com.ukma.library.dto.FilterDto;
 import com.ukma.library.model.Book;
 import com.ukma.library.service.BookService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -19,8 +27,8 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping
-    public List<Book> getAll() {
-        return bookService.getAll();
+    public List<Book> getAll(FilterDto filter) {
+        return bookService.search(filter, null);
     }
 
     @GetMapping("/{isbn}")

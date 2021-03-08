@@ -1,5 +1,6 @@
 package com.ukma.library.service.impl;
 
+import com.ukma.library.dto.FilterDto;
 import com.ukma.library.exception.IsbnNotMatchException;
 import com.ukma.library.exception.ResourceNotFoundException;
 import com.ukma.library.model.Book;
@@ -10,6 +11,7 @@ import com.ukma.library.service.BookService;
 import com.ukma.library.service.CopyService;
 import com.ukma.library.service.FileService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,6 +66,11 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<Book> getAll() {
 		return bookRepository.findAll();
+	}
+
+	@Override
+	public List<Book> search(FilterDto filter, Pageable pageable) {
+		return bookRepository.search(filter, pageable);
 	}
 
 	@Override

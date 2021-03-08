@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, String> {
+public interface BookRepository extends JpaRepository<Book, String>, BookCriteriaRepository {
 
 	Optional<Book> getBookByIsbn(String isbn);
 
