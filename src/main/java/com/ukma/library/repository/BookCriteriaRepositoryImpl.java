@@ -61,6 +61,16 @@ public class BookCriteriaRepositoryImpl implements BookCriteriaRepository {
 		typedQuery.setMaxResults(pageSize);
 
 		List<Book> books = typedQuery.getResultList();
-		return new PageImpl<>(books, pageable, books.size());
+		return new PageImpl<>(books, pageable, getTotalCount(criteriaBuilder, predicates.toArray(Predicate[]::new)));
+	}
+
+	private Long getTotalCount(CriteriaBuilder criteriaBuilder, Predicate[] predicateArray) {
+		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+		Root<Book> root = criteriaQuery.from(Book.class);
+
+		criteriaQuery.select(criteriaBuilder.count(root));
+		criteriaQuery.where(predicateArray);
+
+		return entityManager.createQuery(criteriaQuery).getSingleResult();
 	}
 }
