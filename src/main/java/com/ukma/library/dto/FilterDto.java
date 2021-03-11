@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class FilterDto {
 
-	String author;
-	String genre;
-	boolean isAvailableOnly;
+	private String author;
+	private String genre;
+	private boolean isAvailableOnly;
 }

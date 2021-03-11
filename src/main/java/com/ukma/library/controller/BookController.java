@@ -3,6 +3,11 @@ package com.ukma.library.controller;
 import com.ukma.library.dto.FilterDto;
 import com.ukma.library.model.Book;
 import com.ukma.library.service.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
@@ -26,10 +30,11 @@ public class BookController {
     @Resource
     private BookService bookService;
 
-    @GetMapping
-    public List<Book> getAll(FilterDto filter) {
-        return bookService.search(filter, null);
-    }
+	@GetMapping
+	public Page<Book> getAll(@SortDefault(sort = "title", direction = Sort.Direction.ASC) Pageable pageable,
+							 FilterDto filter) {
+		return bookService.search(filter, pageable);
+	}
 
     @GetMapping("/{isbn}")
     public Book getBook(@PathVariable String isbn) {
@@ -54,8 +59,7 @@ public class BookController {
     @DeleteMapping(value = "/{isbn}")
     public ResponseEntity<Void> deleteBook(@PathVariable String isbn) {
         bookService.deleteBook(isbn);
-		return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();
     }
-
 
 }

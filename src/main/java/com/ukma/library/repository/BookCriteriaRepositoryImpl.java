@@ -5,11 +5,14 @@ import com.ukma.library.model.Author;
 import com.ukma.library.model.Book;
 import com.ukma.library.model.Copy;
 import com.ukma.library.model.Genre;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -27,7 +30,7 @@ public class BookCriteriaRepositoryImpl implements BookCriteriaRepository {
 	private EntityManager entityManager;
 
 	@Override
-	public List<Book> search(FilterDto filter, Pageable pageable) {
+	public Page<Book> search(FilterDto filter, Pageable pageable) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Book> query = criteriaBuilder.createQuery(Book.class);
 		Root<Book> root = query.from(Book.class);
@@ -48,6 +51,16 @@ public class BookCriteriaRepositoryImpl implements BookCriteriaRepository {
 
 		query.select(root).where(predicates.toArray(Predicate[]::new));
 
-		return entityManager.createQuery(query).getResultList();
+		TypedQuery<Book> typedQuery = entityManager.createQuery(query);
+
+		int pageNumber = pageable.getPageNumber();
+		int pageSize = pageable.getPageSize();
+		int offset = pageNumber * pageSize;
+
+		typedQuery.setFirstResult(offset);
+		typedQuery.setMaxResults(pageSize);
+
+		List<Book> books = typedQuery.getResultList();
+		return new PageImpl<>(books, pageable, books.size());
 	}
 }

@@ -11,6 +11,7 @@ import com.ukma.library.service.BookService;
 import com.ukma.library.service.CopyService;
 import com.ukma.library.service.FileService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,7 +70,7 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<Book> search(FilterDto filter, Pageable pageable) {
+	public Page<Book> search(FilterDto filter, Pageable pageable) {
 		return bookRepository.search(filter, pageable);
 	}
 
