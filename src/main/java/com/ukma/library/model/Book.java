@@ -1,5 +1,6 @@
 package com.ukma.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,13 +32,13 @@ public class Book {
 	private String isbn;
 	@NotNull
 	private String title;
-	@ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "book_author",
 			joinColumns = {@JoinColumn(name = "isbn")},
 			inverseJoinColumns = {@JoinColumn(name = "author_id")})
 	private Set<Author> authors = new HashSet<>();
-	@ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "book_genre",
 			joinColumns = {@JoinColumn(name = "isbn")},
@@ -57,4 +58,7 @@ public class Book {
 	private String imageLink;
 	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
 	private Set<Copy> copies;
+	@JsonIgnore
+	@ManyToMany(mappedBy = "books")
+	private Set<Order> orders = new HashSet<>();
 }

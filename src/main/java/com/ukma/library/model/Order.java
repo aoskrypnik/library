@@ -53,5 +53,9 @@ public class Order {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
-
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "order_book",
+			joinColumns = {@JoinColumn(name = "order_num")},
+			inverseJoinColumns = {@JoinColumn(name = "book_isbn")})
+	private Set<Book> books = new HashSet<>();
 }

@@ -4,7 +4,6 @@ import com.ukma.library.dto.OrderSaveDto;
 import com.ukma.library.model.Order;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface OrderService {
 
@@ -14,5 +13,5 @@ public interface OrderService {
 
 	Order getById(Long orderId);
 
-	Order updateOrder(Order order, Long orderId);
+	Order update(Order order, Long orderId);
 }

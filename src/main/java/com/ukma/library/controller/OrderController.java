@@ -11,8 +11,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.nonNull;
-
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -37,9 +35,8 @@ public class OrderController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public Order updateBook(
-			@RequestBody Order order, @PathVariable Long id) {
-		return orderService.updateOrder(order, id);
+	public Order updateBook(@RequestBody Order order, @PathVariable Long id) {
+		return orderService.update(order, id);
 	}
 
 	@GetMapping("/{orderId}")
