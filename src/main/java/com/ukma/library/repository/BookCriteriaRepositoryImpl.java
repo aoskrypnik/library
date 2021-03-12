@@ -34,6 +34,38 @@ public class BookCriteriaRepositoryImpl implements BookCriteriaRepository {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Book> query = criteriaBuilder.createQuery(Book.class);
 		Root<Book> root = query.from(Book.class);
+		List<Predicate> predicates = getPredicates(filter, criteriaBuilder, root);
+
+		query.select(root).where(predicates.toArray(Predicate[]::new));
+
+		TypedQuery<Book> typedQuery = entityManager.createQuery(query);
+
+		int pageNumber = pageable.getPageNumber();
+		int pageSize = pageable.getPageSize();
+		int offset = pageNumber * pageSize;
+
+		typedQuery.setFirstResult(offset);
+		typedQuery.setMaxResults(pageSize);
+
+		List<Book> books = typedQuery.getResultList();
+		return new PageImpl<>(
+				books,
+				pageable,
+				getTotalCount(criteriaBuilder, filter)
+		);
+	}
+
+	private Long getTotalCount(CriteriaBuilder criteriaBuilder, FilterDto filter) {
+		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+		Root<Book> root = criteriaQuery.from(Book.class);
+
+		criteriaQuery.select(criteriaBuilder.count(root));
+		criteriaQuery.where(getPredicates(filter, criteriaBuilder, root).toArray(Predicate[]::new));
+
+		return entityManager.createQuery(criteriaQuery).getSingleResult();
+	}
+
+	private List<Predicate> getPredicates(FilterDto filter, CriteriaBuilder criteriaBuilder, Root<Book> root) {
 		List<Predicate> predicates = new ArrayList<>();
 
 		if (!isBlank(filter.getAuthor())) {
@@ -48,29 +80,6 @@ public class BookCriteriaRepositoryImpl implements BookCriteriaRepository {
 			Join<Book, Copy> bookCopyJoin = root.join("copies");
 			predicates.add(criteriaBuilder.equal(bookCopyJoin.get("isAvailable"), true));
 		}
-
-		query.select(root).where(predicates.toArray(Predicate[]::new));
-
-		TypedQuery<Book> typedQuery = entityManager.createQuery(query);
-
-		int pageNumber = pageable.getPageNumber();
-		int pageSize = pageable.getPageSize();
-		int offset = pageNumber * pageSize;
-
-		typedQuery.setFirstResult(offset);
-		typedQuery.setMaxResults(pageSize);
-
-		List<Book> books = typedQuery.getResultList();
-		return new PageImpl<>(books, pageable, getTotalCount(criteriaBuilder, predicates.toArray(Predicate[]::new)));
-	}
-
-	private Long getTotalCount(CriteriaBuilder criteriaBuilder, Predicate[] predicateArray) {
-		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
-		Root<Book> root = criteriaQuery.from(Book.class);
-
-		criteriaQuery.select(criteriaBuilder.count(root));
-		criteriaQuery.where(predicateArray);
-
-		return entityManager.createQuery(criteriaQuery).getSingleResult();
+		return predicates;
 	}
 }
