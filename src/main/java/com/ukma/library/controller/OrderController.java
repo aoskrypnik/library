@@ -2,6 +2,7 @@ package com.ukma.library.controller;
 
 import com.ukma.library.dto.OrderSaveDto;
 import com.ukma.library.model.Order;
+import com.ukma.library.model.OrderStatus;
 import com.ukma.library.service.OrderService;
 import com.ukma.library.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,8 @@ import javax.annotation.Resource;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequestMapping("/orders")
@@ -34,6 +37,10 @@ public class OrderController {
 		return orderService.save(orderSaveDto);
 	}
 
+	@GetMapping(value = "/search", consumes = MULTIPART_FORM_DATA_VALUE)
+	public List<Order> getAll(@RequestParam(value = "userId", required = false) Long userId, @RequestParam(value = "status", required = false) OrderStatus status) {
+		return orderService.search(userId, status);
+	}
 	@PutMapping(value = "/{id}")
 	public Order updateBook(@RequestBody Order order, @PathVariable Long id) {
 		return orderService.update(order, id);
