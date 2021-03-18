@@ -37,8 +37,9 @@ public class OrderController {
 		return orderService.save(orderSaveDto);
 	}
 
-	@GetMapping(value = "/search", consumes = MULTIPART_FORM_DATA_VALUE)
-	public List<Order> getAll(@RequestParam(value = "userId", required = false) Long userId, @RequestParam(value = "status", required = false) OrderStatus status) {
+	@GetMapping(value = "/search")
+	public List<Order> getAll(@RequestParam(value = "userId", required = false) Long userId,
+							  @RequestParam(value = "status", required = false) OrderStatus status) {
 		return orderService.search(userId, status);
 	}
 	@PutMapping(value = "/{id}")
