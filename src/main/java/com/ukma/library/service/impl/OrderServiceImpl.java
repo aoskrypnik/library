@@ -17,10 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.stream.Collectors.toSet;
 
@@ -85,6 +82,15 @@ public class OrderServiceImpl implements OrderService {
 		Order orderToSave = optionalOrder.get();
 		orderToSave.setActualReturnDate(order.getActualReturnDate());
 		orderToSave.setStatus(order.getStatus());
+		if(order.getStatus() == OrderStatus.RETURNED){
+			Set<Copy> copies = new HashSet<>();
+			for (Copy copy :
+					orderToSave.getCopies()) {
+				copy.setIsAvailable(true);
+				copies.add(copy);
+			}
+			orderToSave.setCopies(copies);
+		}
 		orderToSave.setTakenDate(order.getTakenDate());
 		return orderToSave;
 	}
