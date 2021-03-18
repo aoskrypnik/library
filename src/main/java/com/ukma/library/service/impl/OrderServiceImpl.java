@@ -91,15 +91,6 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<Order> search(Long userId, OrderStatus status) {
-		if(userId != null && status != null){
-			return orderRepository.findByUserIdAndStatus(userId, status.toString());
-		}
-		if(userId != null){
-			return orderRepository.findByUserId(userId);
-		}
-		if(status != null){
-			return orderRepository.findByStatus(status.toString());
-		}
-		return orderRepository.findAll();
+		return orderRepository.findByUserIdAndStatus(userId, status);
 	}
 }
