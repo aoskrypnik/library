@@ -1,6 +1,6 @@
 package com.ukma.library.repository;
 
-import com.ukma.library.dto.FilterDto;
+import com.ukma.library.dto.BookFilterDto;
 import com.ukma.library.model.Author;
 import com.ukma.library.model.Book;
 import com.ukma.library.model.Copy;
@@ -30,7 +30,7 @@ public class BookCriteriaRepositoryImpl implements BookCriteriaRepository {
 	private EntityManager entityManager;
 
 	@Override
-	public Page<Book> search(FilterDto filter, Pageable pageable) {
+	public Page<Book> search(BookFilterDto filter, Pageable pageable) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Book> query = criteriaBuilder.createQuery(Book.class);
 		Root<Book> root = query.from(Book.class);
@@ -55,7 +55,7 @@ public class BookCriteriaRepositoryImpl implements BookCriteriaRepository {
 		);
 	}
 
-	private Long getTotalCount(CriteriaBuilder criteriaBuilder, FilterDto filter) {
+	private Long getTotalCount(CriteriaBuilder criteriaBuilder, BookFilterDto filter) {
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 		Root<Book> root = criteriaQuery.from(Book.class);
 
@@ -65,7 +65,7 @@ public class BookCriteriaRepositoryImpl implements BookCriteriaRepository {
 		return entityManager.createQuery(criteriaQuery).getSingleResult();
 	}
 
-	private List<Predicate> getPredicates(FilterDto filter, CriteriaBuilder criteriaBuilder, Root<Book> root) {
+	private List<Predicate> getPredicates(BookFilterDto filter, CriteriaBuilder criteriaBuilder, Root<Book> root) {
 		List<Predicate> predicates = new ArrayList<>();
 
 		if (!isBlank(filter.getAuthor())) {

@@ -3,7 +3,7 @@ package com.ukma.library.dto;
 import lombok.Data;
 
 @Data
-public class FilterDto {
+public class BookFilterDto {
 
 	private String author;
 	private String genre;

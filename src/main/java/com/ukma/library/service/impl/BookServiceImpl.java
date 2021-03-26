@@ -1,6 +1,6 @@
 package com.ukma.library.service.impl;
 
-import com.ukma.library.dto.FilterDto;
+import com.ukma.library.dto.BookFilterDto;
 import com.ukma.library.exception.IsbnNotMatchException;
 import com.ukma.library.exception.ResourceNotFoundException;
 import com.ukma.library.model.Book;
@@ -70,7 +70,7 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public Page<Book> search(FilterDto filter, Pageable pageable) {
+	public Page<Book> search(BookFilterDto filter, Pageable pageable) {
 		return bookRepository.search(filter, pageable);
 	}
 

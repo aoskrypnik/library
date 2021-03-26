@@ -1,6 +1,6 @@
 package com.ukma.library.service;
 
-import com.ukma.library.dto.FilterDto;
+import com.ukma.library.dto.BookFilterDto;
 import com.ukma.library.model.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +14,7 @@ public interface BookService {
 
 	List<Book> getAll();
 
-	Page<Book> search(FilterDto filter, Pageable pageable);
+	Page<Book> search(BookFilterDto filter, Pageable pageable);
 
 	Book getById(String isbn);
 

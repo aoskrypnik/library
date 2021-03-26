@@ -1,18 +1,26 @@
 package com.ukma.library.controller;
 
+import com.ukma.library.dto.OrderFilterDto;
 import com.ukma.library.dto.OrderSaveDto;
 import com.ukma.library.model.Order;
-import com.ukma.library.model.OrderStatus;
 import com.ukma.library.service.OrderService;
 import com.ukma.library.service.UserService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequestMapping("/orders")
@@ -38,9 +46,9 @@ public class OrderController {
 	}
 
 	@GetMapping(value = "/search")
-	public List<Order> getAll(@RequestParam(value = "userId", required = false) Long userId,
-							  @RequestParam(value = "status", required = false) OrderStatus status) {
-		return orderService.search(userId, status);
+	public Page<Order> getAll(@SortDefault(sort = "registeredDate", direction = Sort.Direction.ASC) Pageable pageable,
+							  OrderFilterDto orderFilter) {
+		return orderService.search(orderFilter, pageable);
 	}
 
 	@PutMapping(value = "/{id}")

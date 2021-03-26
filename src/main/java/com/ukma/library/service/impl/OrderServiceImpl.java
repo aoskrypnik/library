@@ -1,5 +1,6 @@
 package com.ukma.library.service.impl;
 
+import com.ukma.library.dto.OrderFilterDto;
 import com.ukma.library.dto.OrderSaveDto;
 import com.ukma.library.exception.NoCopiesAvailableException;
 import com.ukma.library.exception.ResourceNotFoundException;
@@ -12,13 +13,13 @@ import com.ukma.library.service.BookService;
 import com.ukma.library.service.CopyService;
 import com.ukma.library.service.OrderService;
 import com.ukma.library.service.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -110,9 +111,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> search(Long userId, OrderStatus status) {
-		List<Order> orders = orderRepository.findByUserIdAndStatus(userId, status);
-		orders.sort((Comparator.comparing(Order::getRegisteredDate).reversed()));
-		return orders;
+	public Page<Order> search(OrderFilterDto orderFilter, Pageable pageable) {
+		return orderRepository.search(orderFilter, pageable);
 	}
 }

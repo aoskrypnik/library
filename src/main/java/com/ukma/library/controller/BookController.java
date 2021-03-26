@@ -1,12 +1,11 @@
 package com.ukma.library.controller;
 
-import com.ukma.library.dto.FilterDto;
+import com.ukma.library.dto.BookFilterDto;
 import com.ukma.library.model.Book;
 import com.ukma.library.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +31,7 @@ public class BookController {
 
 	@GetMapping
 	public Page<Book> getAll(@SortDefault(sort = "title", direction = Sort.Direction.ASC) Pageable pageable,
-							 FilterDto filter) {
+							 BookFilterDto filter) {
 		return bookService.search(filter, pageable);
 	}
 
