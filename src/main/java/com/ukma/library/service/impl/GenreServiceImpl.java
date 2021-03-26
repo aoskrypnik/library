@@ -22,17 +22,26 @@ public class GenreServiceImpl implements GenreService {
 
 	@PostConstruct
 	void buildTestGenres() {
-		Genre genre1 = Genre.builder().genreName("thriller").build();
-		Genre genre2 = Genre.builder().genreName("romantic").build();
-		Genre genre3 = Genre.builder().genreName("detective").build();
-		if (genreRepository.findByGenreName(genre1.getGenreName()).isEmpty()) {
-			genreRepository.save(genre1);
-		}
-		if (genreRepository.findByGenreName(genre2.getGenreName()).isEmpty()) {
-			genreRepository.save(genre2);
-		}
-		if (genreRepository.findByGenreName(genre3.getGenreName()).isEmpty()) {
-			genreRepository.save(genre3);
-		}
+		List<Genre> genres = List.of(
+				Genre.builder().genreName("thriller").build(),
+				Genre.builder().genreName("romantic").build(),
+				Genre.builder().genreName("detective").build(),
+				Genre.builder().genreName("action and adventure").build(),
+				Genre.builder().genreName("biography").build(),
+				Genre.builder().genreName("classics").build(),
+				Genre.builder().genreName("fantasy").build(),
+				Genre.builder().genreName("fiction").build(),
+				Genre.builder().genreName("historical fiction").build(),
+				Genre.builder().genreName("horror").build(),
+				Genre.builder().genreName("memoir").build(),
+				Genre.builder().genreName("poetry").build(),
+				Genre.builder().genreName("novel").build(),
+				Genre.builder().genreName("nonfiction").build()
+		);
+		genres.forEach(genre -> {
+			if (genreRepository.findByGenreName(genre.getGenreName()).isEmpty()) {
+				genreRepository.save(genre);
+			}
+		});
 	}
 }

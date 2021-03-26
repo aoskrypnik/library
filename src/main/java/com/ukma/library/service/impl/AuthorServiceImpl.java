@@ -22,17 +22,28 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@PostConstruct
 	void buildTestAuthors() {
-		Author author1 = Author.builder().authorName("Taras Shevchenko").country("Ukraine").build();
-		Author author2 = Author.builder().authorName("Franz Kafka").country("Czeck Republic").build();
-		Author author3 = Author.builder().authorName("Jack London").country("USA").build();
-		if (authorRepository.findByAuthorName(author1.getAuthorName()).isEmpty()) {
-			authorRepository.save(author1);
-		}
-		if (authorRepository.findByAuthorName(author2.getAuthorName()).isEmpty()) {
-			authorRepository.save(author2);
-		}
-		if (authorRepository.findByAuthorName(author3.getAuthorName()).isEmpty()) {
-			authorRepository.save(author3);
-		}
+		List<Author> authors = List.of(
+				Author.builder().authorName("Taras Shevchenko").country("Ukraine").build(),
+				Author.builder().authorName("Franz Kafka").country("Czeck Republic").build(),
+				Author.builder().authorName("Jack London").country("USA").build(),
+				Author.builder().authorName("William Shakespeare").country("Great Britain").build(),
+				Author.builder().authorName("Arthur Conan Doyle").country("Great Britain").build(),
+				Author.builder().authorName("Edgar Allan Poe").country("Great Britain").build(),
+				Author.builder().authorName("Oscar Wilde").country("Great Britain").build(),
+				Author.builder().authorName("Charles Dickens").country("Great Britain").build(),
+				Author.builder().authorName("Ernest Hemingway").country("USA").build(),
+				Author.builder().authorName("Jane Austen").country("Great Britain").build(),
+				Author.builder().authorName("Joanne Rowling").country("Great Britain").build(),
+				Author.builder().authorName("Lewis Carroll").country("Great Britain").build(),
+				Author.builder().authorName("Agatha Christie").country("Great Britain").build(),
+				Author.builder().authorName("Mark Twain").country("USA").build(),
+				Author.builder().authorName("Friedrich Nietzsche").country("Germany").build(),
+				Author.builder().authorName("Stephen King").country("USA").build()
+		);
+		authors.forEach(author -> {
+			if (authorRepository.findByAuthorName(author.getAuthorName()).isEmpty()) {
+				authorRepository.save(author);
+			}
+		});
 	}
 }
