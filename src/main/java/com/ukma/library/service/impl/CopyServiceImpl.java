@@ -6,7 +6,6 @@ import com.ukma.library.service.CopyService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,12 +20,12 @@ public class CopyServiceImpl implements CopyService {
 	}
 
 	@Override
-	public List<Copy> getAll() {
-		return copyRepository.findAll();
+	public Optional<Copy> getById(Long id) {
+		return copyRepository.findById(id);
 	}
 
 	@Override
-	public Optional<Copy> getById(Long id) {
-		return copyRepository.findById(id);
+	public Optional<Copy> getFirstByBookIsbnAndIsAvailable(String isbn) {
+		return copyRepository.findFirstByBookIsbnAndIsAvailableTrue(isbn);
 	}
 }

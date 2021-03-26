@@ -1,6 +1,11 @@
 package com.ukma.library.handler;
 
-import com.ukma.library.exception.*;
+import com.ukma.library.exception.AuthenticationException;
+import com.ukma.library.exception.IsbnNotMatchException;
+import com.ukma.library.exception.NoCopiesAvailableException;
+import com.ukma.library.exception.PasswordNotMatchException;
+import com.ukma.library.exception.ResourceNotFoundException;
+import com.ukma.library.exception.UserAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,13 +24,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
 @Slf4j
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler({AuthenticationException.class, PasswordNotMatchException.class,UserAlreadyExistsException.class})
+	@ExceptionHandler({AuthenticationException.class, PasswordNotMatchException.class,
+			UserAlreadyExistsException.class, NoCopiesAvailableException.class})
 	public void handleConflict(HttpServletResponse response) throws IOException {
 		response.sendError(CONFLICT.value());
 	}
@@ -35,7 +43,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 		response.sendError(NOT_FOUND.value());
 	}
 
-	@ExceptionHandler({IsbnNotMatchException.class, IdNotMatchException.class})
+	@ExceptionHandler({IsbnNotMatchException.class})
 	public void handleBadRequest(HttpServletResponse response) throws IOException {
 		response.sendError(BAD_REQUEST.value());
 	}
