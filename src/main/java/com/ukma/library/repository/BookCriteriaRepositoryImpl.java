@@ -68,6 +68,12 @@ public class BookCriteriaRepositoryImpl implements BookCriteriaRepository {
 	private List<Predicate> getPredicates(BookFilterDto filter, CriteriaBuilder criteriaBuilder, Root<Book> root) {
 		List<Predicate> predicates = new ArrayList<>();
 
+		if (!isBlank(filter.getTitle())) {
+			predicates.add(criteriaBuilder.like(
+					criteriaBuilder.upper(root.get("title")),
+					"%" + filter.getTitle().toUpperCase() + "%")
+			);
+		}
 		if (!isBlank(filter.getAuthor())) {
 			Join<Book, Author> bookAuthorJoin = root.join("authors");
 			predicates.add(criteriaBuilder.equal(bookAuthorJoin.get("authorName"), filter.getAuthor()));
