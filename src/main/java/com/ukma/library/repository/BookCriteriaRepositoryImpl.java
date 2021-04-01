@@ -36,7 +36,7 @@ public class BookCriteriaRepositoryImpl implements BookCriteriaRepository {
 		Root<Book> root = query.from(Book.class);
 		List<Predicate> predicates = getPredicates(filter, criteriaBuilder, root);
 
-		query.select(root).where(predicates.toArray(Predicate[]::new));
+		query.distinct(true).select(root).where(predicates.toArray(Predicate[]::new));
 
 		TypedQuery<Book> typedQuery = entityManager.createQuery(query);
 
