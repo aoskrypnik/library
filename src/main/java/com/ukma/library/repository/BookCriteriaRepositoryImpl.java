@@ -56,13 +56,13 @@ public class BookCriteriaRepositoryImpl implements BookCriteriaRepository {
 	}
 
 	private Long getTotalCount(CriteriaBuilder criteriaBuilder, BookFilterDto filter) {
-		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+		CriteriaQuery<Book> criteriaQuery = criteriaBuilder.createQuery(Book.class);
 		Root<Book> root = criteriaQuery.from(Book.class);
 
-		criteriaQuery.distinct(true).select(criteriaBuilder.count(root));
-		criteriaQuery.where(getPredicates(filter, criteriaBuilder, root).toArray(Predicate[]::new));
+		criteriaQuery.distinct(true).select(root)
+				.where(getPredicates(filter, criteriaBuilder, root).toArray(Predicate[]::new));
 
-		return entityManager.createQuery(criteriaQuery).getSingleResult();
+		return (long) entityManager.createQuery(criteriaQuery).getResultList().size();
 	}
 
 	private List<Predicate> getPredicates(BookFilterDto filter, CriteriaBuilder criteriaBuilder, Root<Book> root) {
