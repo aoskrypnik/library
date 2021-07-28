@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -18,6 +19,6 @@ public class GenreController {
 
 	@GetMapping
 	public List<Genre> getAll() {
-		return List.of();
+		return Collections.EMPTY_LIST;
 	}
 }
