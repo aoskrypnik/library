@@ -18,6 +18,6 @@ public class AuthorController {
 
 	@GetMapping
 	public List<Author> getAll() {
-		return authorService.getAll();
+		return List.of();
 	}
 }

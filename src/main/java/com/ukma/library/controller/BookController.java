@@ -29,6 +29,8 @@ public class BookController {
     @Resource
     private BookService bookService;
 
+    private String anotherChange;
+
 	@GetMapping
 	public Page<Book> getAll(@SortDefault(sort = "title", direction = Sort.Direction.ASC) Pageable pageable,
 							 BookFilterDto filter) {
