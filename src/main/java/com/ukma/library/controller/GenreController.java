@@ -18,6 +18,6 @@ public class GenreController {
 
 	@GetMapping
 	public List<Genre> getAll() {
-		return genreService.getAll();
+		return List.of();
 	}
 }
